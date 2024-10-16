@@ -1,8 +1,24 @@
+/* 
+Where you define the primary structure, routing,
+and build out the application’s UI and logic such as handling state, props, and component lifecycles.
+*/
+
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+
+/* 
+This sort of logic is a react thing.
+It allows you to build components that
+you can combine into entire screens, 
+pages, and apps. It essentially removes
+the need to manually code every part of the
+website using html repetitively, so you can
+almost think of it as obeject-oriented
+programming for websites.a
+*/
 function App() {
   const [count, setCount] = useState(0)
 
@@ -28,6 +44,10 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+
+      <h1 className="text-3xl font-bold underline">
+        Hello world!
+      </h1>
     </>
   )
 }
