@@ -1,14 +1,20 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 import { useEffect } from "react";
+import { gsap } from "gsap";
+
+// @ts-ignore
 import { getFresnelMat } from "/src/getFresnelMat.js";
+// @ts-ignore
 import getStarfield from "/src/getStarfield.js";
+
 import './App.css' 
 
 const App = () => {
   useEffect(() => {
     
-    // Set up scene, camera, and renderer
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -28,17 +34,37 @@ const App = () => {
       zIndex: '-1'
     });
 
+
+    const fontLoader = new FontLoader();
+    fontLoader.load(
+      'src/assets/fonts/gentilis_regular.typeface.json', 
+      function (font) {
+        const textGeometry = new TextGeometry(
+          'Will this text show up as it is supposed to? Find out today!', {
+          font: font,
+          size: 1,
+          height: 0.1
+        });
+
+      const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+
+      textMesh.position.set(0, 20, 15);
+      scene.add(textMesh); 
+    });
+
+
     const earthGroup = new THREE.Group();
     earthGroup.rotation.z = -23.4 * Math.PI / 180
     scene.add(earthGroup);
 
-    const loader = new THREE.TextureLoader();
+    const textureLoader = new THREE.TextureLoader();
     const earthMesh = new THREE.Mesh(
       new THREE.IcosahedronGeometry(10, 12),
       new THREE.MeshPhongMaterial({
-        map: loader.load("src/assets/textures/earthmap10k.jpg"),
-        specularMap: loader.load("src/assets/textures/earthspec10k.jpg"),
-        bumpMap: loader.load("src/assets/textures/earthbump10k.jpg"),
+        map: textureLoader.load("src/assets/textures/earthmap10k.jpg"),
+        specularMap: textureLoader.load("src/assets/textures/earthspec10k.jpg"),
+        bumpMap: textureLoader.load("src/assets/textures/earthbump10k.jpg"),
         bumpScale: 0.01,
       })
     );
@@ -47,7 +73,7 @@ const App = () => {
     const lightsMesh = new THREE.Mesh(
       new THREE.IcosahedronGeometry(10, 12), 
       new THREE.MeshBasicMaterial({
-        map: loader.load("src/assets/textures/earthlights10k.jpg"),
+        map: textureLoader.load("src/assets/textures/earthlights10k.jpg"),
         blending: THREE.AdditiveBlending,
       })
     );
@@ -56,8 +82,8 @@ const App = () => {
     const cloudsMesh = new THREE.Mesh(
       new THREE.IcosahedronGeometry(10, 12),
       new THREE.MeshStandardMaterial({
-        map: loader.load("src/assets/textures/earthhiresclouds4K.jpg"),
-        alphaMap: loader.load('src/assets/textures/earthcloudmaptrans.jpg'),
+        map: textureLoader.load("src/assets/textures/earthhiresclouds4K.jpg"),
+        alphaMap: textureLoader.load('src/assets/textures/earthcloudmaptrans.jpg'),
         blending: THREE.AdditiveBlending,
         transparent: true,
         opacity: 0.8,
@@ -80,24 +106,30 @@ const App = () => {
     sunlight.position.set(-2,0.5,1.5);
     scene.add(sunlight);
 
-    const controls = new OrbitControls(camera, renderer.domElement);
-
     function moveCamera() {
       const t = document.body.getBoundingClientRect().top;
       
       camera.position.z = t * 0.1 + 50;
-      camera.position.x = t * -0.2; // 
+      camera.position.x = t * -0.2;
       camera.rotation.y = t * -0.002;
     }
     moveCamera();
     document.body.onscroll = moveCamera;
 
+    function onWindowResize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+		}
+		window.addEventListener("resize", onWindowResize);
+
+    const controls = new OrbitControls( camera, renderer.domElement );
     const animate = () => {
       lightsMesh.rotation.y = earthMesh.rotation.y += 0.001;
       cloudsMesh.rotation.y += 0.0012
       stars.rotation.y -= 0.0002;
 
-      controls.update();
+      controls.update;
 
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
@@ -108,50 +140,27 @@ const App = () => {
       renderer.dispose();
       scene.clear();
       document.body.removeChild(renderer.domElement);
-    };
+    };  
   }, []);
 
-  /*return (
+  return (
     <main>
-      <header>
-        <h1>Liam Bray</h1>
-        <p>Welcome to my website!</p>
-      </header>
-      
-      <blockquote>
-        <p>I like making stuff and putting it on the internet</p>
-      </blockquote>
-  
-      <section>
-        <h2>Work History</h2>
-        
-        <div>
-          <h3>McDonalds</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
-          </p>
-        </div>
-        <div>
-          <h3>Burger King</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
-          </p>
-        </div>
-        <div>
-          <h3>Taco Bell</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
-          </p>
-        </div>
+      <section className="section-one">
       </section>
-  
-      <blockquote>
-        <p>Thanks for watching!</p>
-      </blockquote>
+
+      <section className="section-two">
+      </section>
+
+      <section className="section-three">
+      </section>
+
+      <section className="section-four">
+      </section>
+
+      <section className="section-five">
+      </section>
     </main>
-  );*/
-  
-  return (null);
+  );
 };
   
 export default App;
