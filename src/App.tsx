@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import { useEffect } from "react";
+import { getFresnelMat } from "/src/getFresnelMat.js";
+import getStarfield from "/src/getStarfield.js";
 import './App.css' 
 
 const App = () => {
@@ -9,15 +11,14 @@ const App = () => {
     // Set up scene, camera, and renderer
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
 
     document.body.appendChild(renderer.domElement);
-    // Add classes to Three canvas
     renderer.domElement.classList.add('top-0', 'left-0', 'w-full', 'h-full', 'z-0');
-
-    // Assigns class values like in CSS
     Object.assign(renderer.domElement.style, {
       position: 'fixed',
       top: '0',
@@ -27,31 +28,58 @@ const App = () => {
       zIndex: '-1'
     });
 
-    // Define an object (MeshStandardMaterial reacts to light, basic does not)
-    const geometry = new THREE.TorusGeometry(10,3,16,100);
-    const material = new THREE.MeshStandardMaterial({ color: 0xA0A0FF });
-    const torus = new THREE.Mesh(geometry, material);
-    scene.add(torus);
-    
-    //create a texture
-    const spaceTexture = new THREE.TextureLoader().load('space.jpg')
-    // set the texture for the scene's background to the spaceTexture
-    scene.background = spaceTexture;
+    const earthGroup = new THREE.Group();
+    earthGroup.rotation.z = -23.4 * Math.PI / 180
+    scene.add(earthGroup);
 
-    // a type of light that is concentrated from one spot
-    const pointLight = new THREE.PointLight(0xffffff, 80);
-    pointLight.position.set(5,15,5);
-    // lights up the whole environment
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-    scene.add(pointLight, ambientLight);
+    const loader = new THREE.TextureLoader();
+    const earthMesh = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(10, 12),
+      new THREE.MeshPhongMaterial({
+        map: loader.load("src/assets/textures/earthmap10k.jpg"),
+        specularMap: loader.load("src/assets/textures/earthspec10k.jpg"),
+        bumpMap: loader.load("src/assets/textures/earthbump10k.jpg"),
+        bumpScale: 0.01,
+      })
+    );
+    earthGroup.add(earthMesh);
 
-    // shows us where the lights are
-    const lightHelper = new THREE.PointLightHelper(pointLight);
-    // creates a grid along the xy plane
-    const gridHelper = new THREE.GridHelper(200, 50);
-    scene.add(lightHelper, gridHelper);
+    const lightsMesh = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(10, 12), 
+      new THREE.MeshBasicMaterial({
+        map: loader.load("src/assets/textures/earthlights10k.jpg"),
+        blending: THREE.AdditiveBlending,
+      })
+    );
+    earthGroup.add(lightsMesh);
 
-    // adds ability to interact with the scene
+    const cloudsMesh = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(10, 12),
+      new THREE.MeshStandardMaterial({
+        map: loader.load("src/assets/textures/earthhiresclouds4K.jpg"),
+        alphaMap: loader.load('src/assets/textures/earthcloudmaptrans.jpg'),
+        blending: THREE.AdditiveBlending,
+        transparent: true,
+        opacity: 0.8,
+      })
+    )
+    cloudsMesh.scale.setScalar(1.01);
+    earthGroup.add(cloudsMesh);
+
+    const glowMesh = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(10, 12),
+      getFresnelMat()
+    );
+    glowMesh.scale.setScalar(1.012);
+    earthGroup.add(glowMesh);
+
+    const stars = getStarfield({numStars: 2000});
+    scene.add(stars);
+
+    const sunlight = new THREE.DirectionalLight(0xFFFFFF, 2);
+    sunlight.position.set(-2,0.5,1.5);
+    scene.add(sunlight);
+
     const controls = new OrbitControls(camera, renderer.domElement);
 
     function moveCamera() {
@@ -61,44 +89,27 @@ const App = () => {
       camera.position.x = t * -0.2; // 
       camera.rotation.y = t * -0.002;
     }
-
     moveCamera();
-
     document.body.onscroll = moveCamera;
 
-    function addStar() {
-      const geometry = new THREE.SphereGeometry(0.25, 24, 24);
-      const material = new THREE.MeshStandardMaterial( { color: 0xffffff } )
-      const star = new THREE.Mesh( geometry, material );
-
-      const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread( 100 ));
-      
-      star.position.set(x, y, z);
-      scene.add(star);
-    }
-
-    // randomly generates 200 stars (spheres)
-    Array(200).fill().forEach(addStar);
-
-    // animation function that continually runs and renders out the scene
     const animate = () => {
-      requestAnimationFrame(animate);
-      torus.rotation.x += 0.01;
-      torus.rotation.y += 0.005;
+      lightsMesh.rotation.y = earthMesh.rotation.y += 0.001;
+      cloudsMesh.rotation.y += 0.0012
+      stars.rotation.y -= 0.0002;
 
       controls.update();
 
+      requestAnimationFrame(animate);
       renderer.render(scene, camera);
     };
     animate();
 
-    // Cleanup function that runs when the component is unmounted
     return () => {
-      renderer.dispose();  // Clean up the renderer to release WebGL resources
-      scene.clear();       // Clear the scene (not mandatory, but it's good practice)
-      document.body.removeChild(renderer.domElement);  // Remove the DOM element from the page
+      renderer.dispose();
+      scene.clear();
+      document.body.removeChild(renderer.domElement);
     };
-  }, []);  // Empty dependency array, so the effect runs once when the component mounts
+  }, []);
 
   /*return (
     <main>
