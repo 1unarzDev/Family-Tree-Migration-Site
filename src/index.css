@@ -16,6 +16,28 @@ body {
   overflow-x: hidden;
 }
 
-main {
-  color: white;
+section {
+	width: 100%;
+	height: 100vh;	
+	position: relative;
+}
+
+.section-one {
+	background-color: #FF6347;
+}
+
+.section-two {
+	background-color: #4682b4;
+}
+
+.section-three {
+	background-color: #B22222;
+}
+
+.section-four {
+	background-color: #00ff00;
+}
+
+.section-five {
+	background-color: #808080;
 }
