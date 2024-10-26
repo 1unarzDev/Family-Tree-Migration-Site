@@ -10,9 +10,12 @@
 }
 
 body {
-  margin: 0;
+  left: 0;
+  top: 0;
   width: 100vw;
-  height: 100%;
+  height: 100vh;
+  margin: 0;
+
   overflow-x: hidden;
 }
 
@@ -23,7 +26,7 @@ section {
 }
 
 .section-one {
-	background-color: #FF6347;
+	background-color: #181861;
 }
 
 .section-two {
@@ -39,5 +42,17 @@ section {
 }
 
 .section-five {
+	background-color: #808080;
+}
+
+.section-six {
+	background-color: #808080;
+}
+
+.section-seven {
+	background-color: #808080;
+}
+
+.section-eight {
 	background-color: #808080;
 }

@@ -1,0 +1,21 @@
+{
+    "type": "Map",
+    "Locations": [
+        {
+            "text": "JPN",
+            "size": 1.0,
+            "country": "Japan",
+            "city": "Tokyo", 
+            "lat": "35.6764", 
+            "lng": "139.6500"
+        },
+        {
+            "text": "USA",
+            "size": 1.0,
+            "country": "United States of America",
+            "city": "Dallas", 
+            "lat": "32.7767", 
+            "lng": "-96.7970"
+        }
+    ]
+}
