@@ -1,21 +1,18 @@
+[{
+    "code": "GPH",
+    "color": "#ff0000",
+    "city": "Funabashi",
+    "province": "Chiba",
+    "country": "Japan",
+    "latitude": 35.6764, 
+    "longitude": 139.6500
+},
 {
-    "type": "Map",
-    "Locations": [
-        {
-            "text": "JPN",
-            "size": 1.0,
-            "country": "Japan",
-            "city": "Tokyo", 
-            "lat": "35.6764", 
-            "lng": "139.6500"
-        },
-        {
-            "text": "USA",
-            "size": 1.0,
-            "country": "United States of America",
-            "city": "Dallas", 
-            "lat": "32.7767", 
-            "lng": "-96.7970"
-        }
-    ]
-}
+    "code": "CFH",
+    "color": "#0000ff",
+    "city": "Mansfield",
+    "province": "Texas",
+    "country": "United States", 
+    "latitude": 32.7767, 
+    "longitude": -96.7970
+}]

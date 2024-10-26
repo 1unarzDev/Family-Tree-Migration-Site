@@ -1,11 +1,31 @@
 // IMPORTS //
 import * as THREE from 'three';
-import { useEffect } from 'react';
-// @ts-ignore
-import { getFresnelMat } from "/src/getFresnelMat.js";
-// @ts-ignore
-import getStarfield from "/src/getStarfield.js";
-import './App.css';
+import { useEffect } from 'react'; //@ts-ignore
+import { getFresnelMat } from "/src/getFresnelMat.js"; //@ts-ignore
+import { getStarfield } from "/src/getStarfield.js"; //@ts-ignore
+import { getPaths } from "/src/getPaths.js"
+import './App.css'; //@ts-ignore
+
+import map from '/src/map.json'; //@ts-ignore
+import network from '/src/network.json'
+
+interface MapData {
+  code: string;
+  color: string;
+  city: string;
+  province: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+}
+
+interface NetworkData{
+  from: string;
+  to: string;
+  arcAlt: number;
+  color: string;
+}
+
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
@@ -68,6 +88,27 @@ const App = () => {
     const sunlight = new THREE.DirectionalLight(0xFFFFFF, 2);
     sunlight.position.set(-2, -0.5, 2.6);
     scene.add(sunlight);
+
+    // const stars = getStarfield();
+    // scene.add(stars);
+
+    const createPaths = () => {
+      map.forEach((location: MapData) => {
+        console.log(`City: ${location.city}, Country: ${location.country}`);
+      });
+
+      network.forEach((path: NetworkData) => {
+        const fromLocation = map.find((location: MapData) => location.code === path.from);
+        const toLocation = map.find((location: MapData) => location.code === path.to);
+
+        console.log(
+            `From: ${fromLocation ? fromLocation.city : 'Unknown'}, To: ${toLocation ? toLocation.city : 'Unknown'}`
+        );
+      });
+
+      // const paths = getPaths();
+    }
+    createPaths();
 
     return scene;
   };
