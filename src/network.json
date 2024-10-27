@@ -1,12 +1,12 @@
 [{
     "from": "GPH",
     "to": "CFH",
-    "arcHeight": 1,
+    "arcHeight": 20,
     "color": "#af0a12"
 },
 {
     "from": "CFH",
     "to": "GPH",
-    "arcHeight": 2,
+    "arcHeight": 10,
     "color": "#00ff70"
 }]

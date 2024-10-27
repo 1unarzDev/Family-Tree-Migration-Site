@@ -1,10 +1,10 @@
 import * as THREE from 'three';
 
-function getPaths(path, fromLocation, toLocation, globeRadius) {
+function getPaths(path, fromLocation, toLocation, globeRadius, primeMeridianOffset = 200) {
     // Helper to convert latitude and longitude to Cartesian coordinates
     const latLongToCartesian = (lat, lon, radius) => {
         const phi = (90 - lat) * (Math.PI / 180);  // Convert latitude to radians
-        const theta = (lon + 180) * (Math.PI / 180);  // Convert longitude to radians
+        const theta = (lon + 180 + primeMeridianOffset) * (Math.PI / 180);  // Adjust longitude with prime meridian offset
         const x = radius * Math.sin(phi) * Math.cos(theta);
         const y = radius * Math.cos(phi);
         const z = radius * Math.sin(phi) * Math.sin(theta);

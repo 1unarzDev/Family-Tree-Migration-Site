@@ -1,6 +1,6 @@
 // IMPORTS //
 import * as THREE from 'three';
-import { useEffect } from 'react'; //@ts-ignore
+import { useEffect, useState } from 'react'; //@ts-ignore
 import { getFresnelMat } from "/src/getFresnelMat.js"; //@ts-ignore
 import { getStarfield } from "/src/getStarfield.js"; //@ts-ignore
 import { getPaths } from "/src/getPaths.js"
@@ -69,7 +69,9 @@ const glowMesh = new THREE.Mesh(
 );
 
 // React App Component That Renders // 
-const App = () => {  
+const App = () => {
+  // Define States //
+  const [isLoading, setIsLoading] = useState(true);
 
   // Scene Initialization (Items That Will Change Over Time) //
   const createScene = () => {
@@ -142,7 +144,7 @@ const App = () => {
       const targetValue = 100;
       
       const updateCounter = () => {
-        const increment = Math.floor(Math.random() * 10) + 1;
+        const increment = Math.floor(Math.random() * 14) + 1;
         currentValue += increment;
     
         if (currentValue > targetValue) {
@@ -183,35 +185,42 @@ const App = () => {
       duration: 2,
       y: 700,
       ease: "power4.inOut",
-      }, {
-        y: 0,
-        stagger: {
-          amount: 0.5,
-        },
-      }, '<.75');
+    }, {
+      y: 0,
+      stagger: {
+        amount: 0.5,
+      },
+    }, '<.75')
+    .add(() => {
+      setIsLoading(false); // Set loading state to false after animations
+      // Initialize ScrollTrigger here
+      initializeScrollTrigger();
+    });
     
     // Scroll-triggered Timeline
-    const tau = Math.PI * 2;
-    const sectionDuration = 1;
+    const initializeScrollTrigger = () => {
+      const tau = Math.PI * 2;
+      const sectionDuration = 1;
 
-    const updateTL = () => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".section",
-          scrub: true,
-          start: "top top",
-          end: "bottom bottom"
-        },
-        defaults: {duration: sectionDuration, ease: 'power2.inOut'}
-      });
-    
-      tl.to(earthGroup.rotation, { y: 20 })
-        .to(camera.position, { z: 15 })
-        .to(camera.position, { z: 25 });
-    
-      return tl;
-    };    
-    masterTimeline.add(updateTL());
+      const updateTL = () => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".section",
+            scrub: true,
+            start: "top top",
+            end: "bottom bottom"
+          },
+          defaults: {duration: sectionDuration, ease: 'power2.inOut'}
+        });
+      
+        tl.to(earthGroup.rotation, { y: 20 })
+          .to(camera.position, { z: 15 })
+          .to(camera.position, { z: 25 });
+      
+        return tl;
+      };    
+      masterTimeline.add(updateTL());
+    };
 
     // Helper Functions //
     const onWindowResize = () => {
@@ -226,7 +235,7 @@ const App = () => {
     let fps = 60;
 
     const animate = () => {
-      markerGroup.rotation.y=lightsMesh.rotation.y = earthMesh.rotation.y += 0.06 / fps;
+      pathGroup.rotation.y = markerGroup.rotation.y =lightsMesh.rotation.y = earthMesh.rotation.y += 0.06 / fps;
       cloudsMesh.rotation.y += 0.072 / fps;
       
       // Calculate fps and adjust animations accordingly
@@ -281,25 +290,30 @@ const App = () => {
         <div className="h1">.</div>
       </div>
 
-      <section className="hero">
-        {/* <svg height="100px" width="200px" transform="translate(20,2.5)">
-          <filter id="grainy">
-            <feTurbulence type='fractalNoise' baseFrequency="0.6"/>
-            <feComposite operator="in" in2="SourceGraphic" result="monoNoise"/>
-          </filter>
-          <path 
-            xmlns="http://www.w3.org/2000/svg"  
-            d="M28.7,-46.9C40,-43.1,54,-41.2,63.6,-33.7C73.2,-26.2,78.4,-13.1,75.1,-1.9C71.7,9.2,59.9,18.5,53.1,30.9C46.3,43.2,44.6,58.7,36.6,70.1C28.6,81.5,14.3,88.8,-0.9,90.4C-16.1,91.9,-32.1,87.7,-45.6,79.4C-59.1,71.2,-69.9,58.9,-78,45C-86.1,31.1,-91.4,15.5,-86.5,2.8C-81.6,-9.9,-66.5,-19.8,-56.8,-30.9C-47.1,-42.1,-42.9,-54.6,-34.4,-60C-25.8,-65.4,-12.9,-63.8,-2.1,-60.1C8.7,-56.5,17.3,-50.8,28.7,-46.9Z"
-          />
-        </svg> */}
-      </section>
-      <section className="section-two"></section>
-      <section className="section-three"></section>
-      <section className="section-four"></section>
-      <section className="section-five"></section>
-      <section className="section-six"></section>
-      <section className="section-seven"></section>
-      <section className="section-eight"></section>
+      {/* <svg height="100px" width="200px" transform="translate(20,2.5)">
+        <filter id="grainy">
+          <feTurbulence type='fractalNoise' baseFrequency="0.6"/>
+          <feComposite operator="in" in2="SourceGraphic" result="monoNoise"/>
+        </filter>
+        <path 
+          xmlns="http://www.w3.org/2000/svg"  
+          d="M28.7,-46.9C40,-43.1,54,-41.2,63.6,-33.7C73.2,-26.2,78.4,-13.1,75.1,-1.9C71.7,9.2,59.9,18.5,53.1,30.9C46.3,43.2,44.6,58.7,36.6,70.1C28.6,81.5,14.3,88.8,-0.9,90.4C-16.1,91.9,-32.1,87.7,-45.6,79.4C-59.1,71.2,-69.9,58.9,-78,45C-86.1,31.1,-91.4,15.5,-86.5,2.8C-81.6,-9.9,-66.5,-19.8,-56.8,-30.9C-47.1,-42.1,-42.9,-54.6,-34.4,-60C-25.8,-65.4,-12.9,-63.8,-2.1,-60.1C8.7,-56.5,17.3,-50.8,28.7,-46.9Z"
+        />
+      </svg> */}
+
+      {/* Conditionally render sections based on loading state */}
+      {!isLoading && (
+        <>
+          <section className="hero"></section>
+          <section className="section-two"></section>
+          <section className="section-three"></section>
+          <section className="section-four"></section>
+          <section className="section-five"></section>
+          <section className="section-six"></section>
+          <section className="section-seven"></section>
+          <section className="section-eight"></section>
+        </>
+      )}
     </main>
   );
 };
