@@ -13,7 +13,7 @@ function getPaths(path, fromLocation, toLocation, globeRadius) {
 
     // Create icosahedron markers at each location
     const createLocationMarker = (location) => {
-        const geometry = new THREE.IcosahedronGeometry(1, 2);
+        const geometry = new THREE.IcosahedronGeometry(0.25, 2);
         const material = new THREE.MeshBasicMaterial({ color: location.color });
         const marker = new THREE.Mesh(geometry, material);
 
@@ -44,18 +44,6 @@ function getPaths(path, fromLocation, toLocation, globeRadius) {
     // Create the line material and mesh
     const material = new THREE.LineBasicMaterial({ color: path.color });
     const arcLine = new THREE.Line(geometry, material);
-
-    console.log("------------------");
-    console.log(`Path Color: ${path.color}`);
-    console.log(`Globe Radius: ${globeRadius}`);
-    console.log(`Arc Height: ${path.arcHeight}`);
-    console.log(`FromLocation Latitude: ${fromLocation.latitude}`);
-    console.log(`FromLocation Logitude: ${fromLocation.longitude}`);
-    console.log(`FromLocation Color: ${fromLocation.color}`);
-    console.log(`ToLocation Latitude: ${toLocation.latitude}`);
-    console.log(`ToLocation Longitude: ${toLocation.longitude}`);
-    console.log(`ToLocation Color: ${toLocation.color}`);
-    console.log("------------------");
 
     // Return the arc line and location markers as requested
     return { arcLine, marker1, marker2 };

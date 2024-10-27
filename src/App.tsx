@@ -40,7 +40,7 @@ const earthMesh = new THREE.Mesh(
     map: textureLoader.load("src/assets/textures/earthmap4k.jpg"),
     specularMap: textureLoader.load("src/assets/textures/earthspec4k.jpg"),
     bumpMap: textureLoader.load("src/assets/textures/earthbump4k.jpg"),
-    bumpScale: 10,
+    bumpScale: 15,
   })
 );
 
@@ -90,33 +90,28 @@ const App = () => {
     // const stars = getStarfield();
     // scene.add(stars);
 
+    const pathGroup = new THREE.Group();
+    const markerGroup = new THREE.Group();
+
     const createPaths = () => {
-      map.forEach((location: MapData) => {
-        console.log(`City: ${location.city}, Country: ${location.country}`);
-      });
-
       network.forEach((path: NetworkData) => {
-        var fromLocation = map.find((location: MapData) => location.code === path.from);
-        var toLocation = map.find((location: MapData) => location.code === path.to);
-        // var {arcLine, marker1, marker2} = getPaths(path, fromLocation, toLocation, globeRadius);
-        // earthGroup.add(arcLine, marker1, marker2);
-
-        console.log(
-            `From: ${fromLocation ? fromLocation.city : 'Unknown'}, To: ${toLocation ? toLocation.city : 'Unknown'}`
-        );
+        let fromLocation = map.find((location: MapData) => location.code === path.from);
+        let toLocation = map.find((location: MapData) => location.code === path.to);        
+        let {arcLine, marker1, marker2} = getPaths(path, fromLocation, toLocation, globeRadius);
+        pathGroup.add(arcLine);
+        markerGroup.add(marker1, marker2);
       }); 
-
-      // const paths = getPaths();
     }
     createPaths();
+    earthGroup.add(pathGroup, markerGroup);
 
-    return scene;
+    return {scene, earthGroup, pathGroup, markerGroup};
   };
 
   //  Mounted Once And Only Reruns When The Dependency Array Changes //
   useEffect(() => {
     // Define Three Components //
-    const scene = createScene();
+    const {scene, earthGroup, pathGroup, markerGroup} = createScene();
     scene.rotation.set(0, 0, 0);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -143,25 +138,28 @@ const App = () => {
     const startLoader = () => {
       let counterElement = document.querySelector(".counter");
       let currentValue = 0;
+      const delay = 300;
+      const targetValue = 100;
       
       const updateCounter = () => {
-        if(currentValue === 100) {
-          return;
+        const increment = Math.floor(Math.random() * 10) + 1;
+        currentValue += increment;
+    
+        if (currentValue > targetValue) {
+          currentValue = targetValue;
         }
-
-        currentValue += Math.floor(Math.random() * 10) + 1;
-
-        if (currentValue > 100) {
-          currentValue = 100;
-        }
-
+    
         // @ts-ignore
         counterElement.textContent = currentValue;
-
-        let delay = Math.floor(Math.random() * 200) + 50;
+    
         setTimeout(updateCounter, delay);
       }
       updateCounter();
+      if (currentValue >= targetValue) {
+        currentValue = targetValue; // @ts-ignore
+        counterElement.textContent = currentValue;
+        return;
+      }
     }
     startLoader();
   
@@ -169,8 +167,8 @@ const App = () => {
     const masterTimeline = gsap.timeline();
 
     masterTimeline.to(".counter", {
-      duration: 0.25,
-      delay: 3.5,
+      duration: 0.7,
+      delay: 6.25,
       opacity: 0,
     })
     .to(".bar", {
@@ -180,7 +178,7 @@ const App = () => {
         amount: 0.5,
       },
       ease: "power4.inOut",
-    }, '<-.2')
+    }, "-=1.25")
     .fromTo(".h1", {
       duration: 2,
       y: 700,
@@ -193,18 +191,23 @@ const App = () => {
       }, '<.75');
     
     // Scroll-triggered Timeline
+    const tau = Math.PI * 2;
+    const sectionDuration = 1;
+
     const updateTL = () => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: ".section",
-          start: 'top top',
-          end: '+=600',
-          scrub: 1,
+          scrub: true,
+          start: "top top",
+          end: "bottom bottom"
         },
+        defaults: {duration: sectionDuration, ease: 'power2.inOut'}
       });
     
-      tl.to(scene.rotation, { y: 1.65 })
-        .to(scene.rotation, { y: 3.1 });
+      tl.to(earthGroup.rotation, { y: 20 })
+        .to(camera.position, { z: 15 })
+        .to(camera.position, { z: 25 });
     
       return tl;
     };    
@@ -223,7 +226,7 @@ const App = () => {
     let fps = 60;
 
     const animate = () => {
-      lightsMesh.rotation.y = earthMesh.rotation.y += 0.06 / fps;
+      markerGroup.rotation.y=lightsMesh.rotation.y = earthMesh.rotation.y += 0.06 / fps;
       cloudsMesh.rotation.y += 0.072 / fps;
       
       // Calculate fps and adjust animations accordingly
