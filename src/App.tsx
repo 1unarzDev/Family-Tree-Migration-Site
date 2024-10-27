@@ -22,7 +22,7 @@ interface MapData {
 interface NetworkData{
   from: string;
   to: string;
-  arcAlt: number;
+  arcHeight: number;
   color: string;
 }
 
@@ -32,9 +32,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Define Static Variables //
 const textureLoader = new THREE.TextureLoader();
+const globeRadius = 10;
 
 const earthMesh = new THREE.Mesh(
-  new THREE.IcosahedronGeometry(10, 12),
+  new THREE.IcosahedronGeometry(globeRadius, 12),
   new THREE.MeshPhongMaterial({
     map: textureLoader.load("src/assets/textures/earthmap4k.jpg"),
     specularMap: textureLoader.load("src/assets/textures/earthspec4k.jpg"),
@@ -44,7 +45,7 @@ const earthMesh = new THREE.Mesh(
 );
 
 const lightsMesh = new THREE.Mesh(
-  new THREE.IcosahedronGeometry(10, 12), 
+  new THREE.IcosahedronGeometry(globeRadius, 12), 
   new THREE.MeshBasicMaterial({
     map: textureLoader.load("src/assets/textures/earthlights4k.jpg"),
     blending: THREE.AdditiveBlending,
@@ -52,7 +53,7 @@ const lightsMesh = new THREE.Mesh(
 );
 
 const cloudsMesh = new THREE.Mesh(
-  new THREE.IcosahedronGeometry(10, 12),
+  new THREE.IcosahedronGeometry(globeRadius, 12),
   new THREE.MeshStandardMaterial({
     map: textureLoader.load("src/assets/textures/earthhiresclouds4K.jpg"),
     alphaMap: textureLoader.load('src/assets/textures/earthcloudmaptrans.jpg'),
@@ -63,7 +64,7 @@ const cloudsMesh = new THREE.Mesh(
 );
 
 const glowMesh = new THREE.Mesh(
-  new THREE.IcosahedronGeometry(10, 12),
+  new THREE.IcosahedronGeometry(globeRadius, 12),
   getFresnelMat()
 );
 
@@ -80,10 +81,7 @@ const App = () => {
     cloudsMesh.scale.setScalar(1.01);
     glowMesh.scale.setScalar(1.012);
 
-    earthGroup.add(earthMesh);
-    earthGroup.add(lightsMesh);
-    earthGroup.add(cloudsMesh);
-    earthGroup.add(glowMesh);
+    earthGroup.add(earthMesh, lightsMesh, cloudsMesh, glowMesh);
 
     const sunlight = new THREE.DirectionalLight(0xFFFFFF, 2);
     sunlight.position.set(-2, -0.5, 2.6);
@@ -98,13 +96,15 @@ const App = () => {
       });
 
       network.forEach((path: NetworkData) => {
-        const fromLocation = map.find((location: MapData) => location.code === path.from);
-        const toLocation = map.find((location: MapData) => location.code === path.to);
+        var fromLocation = map.find((location: MapData) => location.code === path.from);
+        var toLocation = map.find((location: MapData) => location.code === path.to);
+        // var {arcLine, marker1, marker2} = getPaths(path, fromLocation, toLocation, globeRadius);
+        // earthGroup.add(arcLine, marker1, marker2);
 
         console.log(
             `From: ${fromLocation ? fromLocation.city : 'Unknown'}, To: ${toLocation ? toLocation.city : 'Unknown'}`
         );
-      });
+      }); 
 
       // const paths = getPaths();
     }
@@ -115,6 +115,7 @@ const App = () => {
 
   //  Mounted Once And Only Reruns When The Dependency Array Changes //
   useEffect(() => {
+    // Define Three Components //
     const scene = createScene();
     scene.rotation.set(0, 0, 0);
 
@@ -137,8 +138,56 @@ const App = () => {
       height: '100%',
       zIndex: '999'
     });
+
+    // Loader Animation //
+    const startLoader = () => {
+      let counterElement = document.querySelector(".counter");
+      let currentValue = 0;
+      
+      const updateCounter = () => {
+        if(currentValue === 100) {
+          return;
+        }
+
+        currentValue += Math.floor(Math.random() * 10) + 1;
+
+        if (currentValue > 100) {
+          currentValue = 100;
+        }
+
+        // @ts-ignore
+        counterElement.textContent = currentValue;
+
+        let delay = Math.floor(Math.random() * 200) + 50;
+        setTimeout(updateCounter, delay);
+      }
+      updateCounter();
+    }
+    startLoader();
   
     // GSAP Animation //
+    const masterTimeline = gsap.timeline();
+
+    masterTimeline.to(".counter", 0.25, {
+      delay: 3.5,
+      opacity: 0,
+    })
+    .to(".bar", 1.5, {
+      height: 0,
+      stagger: {
+        amount: 0.5,
+      },
+      ease: "power4.inOut",
+    })
+    .from(".h1", 1.5, {
+      y: 50,
+      stagger: {
+        amount: 0.5,
+      },
+      ease: "power4.inOut",
+    });
+    
+    // Scroll-triggered Timeline
     const updateTL = () => {
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -148,85 +197,12 @@ const App = () => {
         },
       });
     
-      /* GSAP Crashcourse /*
-
-        gsap.from('.className', { duration: 1, y: '-100%', ease: 'bounce'})
-
-        animates every component that has the .className class
-        from the state that you give it to the state that it is
-        written in your code, this is mostly used for animations
-        when the website first loads in
-
-        the line above would animate from the bottom of the page
-        to the top with a duration of 1
-
-        ease has different preset curves from GSAP
-
-        the stagger property staggers each element in each class
-
-        the rest of these should be self-explanatory
-
-        gsap.from('.class2', { duration: 1, opacity: 0, delay: 1 })
-        gsap.from('.class3', { duration: 2, x: '-100vw', delay: 1, ease: 'power2.in' })
-
-        --------------------------------------------------------
-
-        gsap.to('.classTo', {duration: 1, y: 0, ease: 'elastic', delay: 2.5 })
-
-        animates to a certain position if you apply a transform to the class
-        .class2 {
-          transform: translateY(100%);
-        }
-
-        --------------------------------------------------------
-
-        gsap.fromTo('.class5', 
-                    { opacity: 0, scale: 0, rotation: 720 }, 
-                    { duration: 1, delay: 3.5, opacity: 1, scale: 1, rotation: 0 })
-
-        this is just a better version of gsap.to
-        because it allows you to specify the start
-        and end values in one line of code
-
-        --------------------------------------------------------
-
-        const obj = { x: 0 }
-        gsap.to(obj, { x: 100 , onUpdate: () => console.log(obj.x) })
-
-        onUpdate: () => runs every time you update, so it can be good for SVGs
-
-        --------------------------------------------------------
-
-        A timeline helps you line up all of these animations and set defaults
-
-        const timeline = gsaptimeline( {defaults: { duration: 1 }} )
-        timeline.from('.class1', { y: '-100%', ease: 'bounce' }).from('.nextClass' { opacity: 0, stagger: .5}, '<.5')
-
-        the animation now has the default value of the timeline
-
-        you can chain them together by just adding another .from after
-        just remember that you can override things
-
-        timelines also have absolute and relative delays from the previous item
-
-        if you just write a number after all of the parameters, it is absolute
-        if you use a carat, it references the animation in that direction
-        in this example, you go .5 seconds after the previous animation
-
-        you can easily reverse a timeline like so
-
-        const button = document.querySelector('.button')
-
-        button.addEventListener('click', () => {timeline.reverse()})
-
-      */
-
       tl.to(scene.rotation, { y: 1.65 })
         .to(scene.rotation, { y: 3.1 });
-
+    
       return tl;
-    };
-    const timeline = updateTL();
+    };    
+    masterTimeline.add(updateTL());
 
     // Helper Functions //
     const onWindowResize = () => {
@@ -236,9 +212,23 @@ const App = () => {
     };
     window.addEventListener("resize", onWindowResize);
 
+    let prevTime = 0;
+    let frames = 0;
+    let fps = 60;
+
     const animate = () => {
-      lightsMesh.rotation.y = earthMesh.rotation.y += 0.002;
-      cloudsMesh.rotation.y += 0.0024;
+      lightsMesh.rotation.y = earthMesh.rotation.y += 0.06 / fps;
+      cloudsMesh.rotation.y += 0.072 / fps;
+      
+      // Calculate fps and adjust animations accordingly
+      frames ++;
+
+			if ( performance.now() >= prevTime + 1000 ) {
+				fps = frames / (performance.now() - prevTime) * 1000;
+				prevTime = performance.now();
+				frames = 0;
+      }
+
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
     };
@@ -247,7 +237,7 @@ const App = () => {
     // Cleans Up After The Animation Loop //
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-      timeline.kill();
+      masterTimeline.kill();
       window.removeEventListener("resize", onWindowResize);
       renderer.dispose();
       scene.clear();
@@ -258,7 +248,31 @@ const App = () => {
   // HTML Return Statement //
   return (
     <main>
-      <section className="section-one">
+
+      <h1 className="counter">0</h1>
+
+      <div className="overlay">
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+      </div>
+
+      <div className="header">
+        <div className="h1">L</div>
+        <div className="h1">i</div>
+        <div className="h1">a</div>
+        <div className="h1">m</div>
+        <div className="h1">.</div>
+      </div>
+
+      <section className="hero">
         {/* <svg height="100px" width="200px" transform="translate(20,2.5)">
           <filter id="grainy">
             <feTurbulence type='fractalNoise' baseFrequency="0.6"/>
