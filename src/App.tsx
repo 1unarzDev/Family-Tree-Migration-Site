@@ -168,32 +168,38 @@ const App = () => {
     // GSAP Animation //
     const masterTimeline = gsap.timeline();
 
-    masterTimeline.to(".counter", 0.25, {
+    masterTimeline.to(".counter", {
+      duration: 0.25,
       delay: 3.5,
       opacity: 0,
     })
-    .to(".bar", 1.5, {
+    .to(".bar", {
+      duration: 1.5,
       height: 0,
       stagger: {
         amount: 0.5,
       },
       ease: "power4.inOut",
-    })
-    .from(".h1", 1.5, {
-      y: 50,
-      stagger: {
-        amount: 0.5,
-      },
+    }, '<-.2')
+    .fromTo(".h1", {
+      duration: 2,
+      y: 700,
       ease: "power4.inOut",
-    });
+      }, {
+        y: 0,
+        stagger: {
+          amount: 0.5,
+        },
+      }, '<.75');
     
     // Scroll-triggered Timeline
     const updateTL = () => {
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: ".section-two",
-          endTrigger: ".section-five",
-          scrub: true,
+          trigger: ".section",
+          start: 'top top',
+          end: '+=600',
+          scrub: 1,
         },
       });
     
