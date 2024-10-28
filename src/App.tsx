@@ -1,5 +1,7 @@
 // IMPORTS //
 import * as THREE from 'three';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { useEffect, useState } from 'react'; //@ts-ignore
 import { getFresnelMat } from "/src/getFresnelMat.js"; //@ts-ignore
 import { getStarfield } from "/src/getStarfield.js"; //@ts-ignore
@@ -56,7 +58,7 @@ const cloudsMesh = new THREE.Mesh(
   new THREE.IcosahedronGeometry(globeRadius, 12),
   new THREE.MeshStandardMaterial({
     map: textureLoader.load("src/assets/textures/earthhiresclouds4K.jpg"),
-    alphaMap: textureLoader.load('src/assets/textures/earthcloudmaptrans.jpg'),
+    alphaMap: textureLoader.load("src/assets/textures/earthcloudmaptrans.jpg"),
     blending: THREE.AdditiveBlending,
     transparent: true,
     opacity: 0.8,
@@ -68,6 +70,14 @@ const glowMesh = new THREE.Mesh(
   getFresnelMat()
 );
 
+// Animated Text //
+const fontLoader = new FontLoader();
+const textBlocks = [
+  { text: "Lorem ipsum dolor", position: { x: 0, y: 0, z: 20 } },
+  { text: "Sit amet", position: { x: 10, y: 20, z: 0 } },
+  { text: "Consectetur adipiscing elit", position: { x: 20, y: 0, z: 0 } },
+];
+
 // React App Component That Renders // 
 const App = () => {
   // Define States //
@@ -76,6 +86,8 @@ const App = () => {
   // Scene Initialization (Items That Will Change Over Time) //
   const createScene = () => {
     const scene = new THREE.Scene();
+
+    // Earth Creation //
     const earthGroup = new THREE.Group();
     earthGroup.rotation.z = -23.4 * Math.PI / 180;
     scene.add(earthGroup);
@@ -92,6 +104,7 @@ const App = () => {
     // const stars = getStarfield();
     // scene.add(stars);
 
+    // Path and Group Creation //
     const pathGroup = new THREE.Group();
     const markerGroup = new THREE.Group();
 
@@ -107,7 +120,32 @@ const App = () => {
     createPaths();
     earthGroup.add(pathGroup, markerGroup);
 
-    return {scene, earthGroup, pathGroup, markerGroup};
+    // Text Creation //
+    const textGroup = new THREE.Group();
+
+    const createText = () => {
+      fontLoader.load("/src/assets/fonts/Proxima-Nova.json", (font) => {
+        textBlocks.forEach((block) => {
+          const textGeometry = new TextGeometry(block.text, {
+            font: font,
+            size: 0.1,
+            height: 0.01,
+            curveSegments: 12,
+          });
+
+          const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, opacity: 1, transparent: false });
+          const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+      
+          textMesh.position.set(block.position.x, block.position.y, block.position.z);
+      
+          textGroup.add(textMesh);
+        });
+      });
+    };
+    createText();
+    scene.add(textGroup);
+
+    return {scene, earthGroup, pathGroup, markerGroup, textGroup};
   };
 
   //  Mounted Once And Only Reruns When The Dependency Array Changes //
@@ -164,13 +202,16 @@ const App = () => {
       }
     }
     startLoader();
-  
+    
+    // Text Animations //
+
+
     // GSAP Animation //
     const masterTimeline = gsap.timeline();
 
     masterTimeline.to(".counter", {
       duration: 0.7,
-      delay: 6.25,
+      delay: 4.75,
       opacity: 0,
     })
     .to(".bar", {
@@ -199,7 +240,6 @@ const App = () => {
     
     // Scroll-triggered Timeline
     const initializeScrollTrigger = () => {
-      const tau = Math.PI * 2;
       const sectionDuration = 1;
 
       const updateTL = () => {
@@ -235,10 +275,10 @@ const App = () => {
     let fps = 60;
 
     const animate = () => {
-      pathGroup.rotation.y = markerGroup.rotation.y =lightsMesh.rotation.y = earthMesh.rotation.y += 0.06 / fps;
+      pathGroup.rotation.y = markerGroup.rotation.y = lightsMesh.rotation.y = earthMesh.rotation.y += 0.06 / fps;
       cloudsMesh.rotation.y += 0.072 / fps;
       
-      // Calculate fps and adjust animations accordingly
+      // FPS Calculuation //
       frames ++;
 
 			if ( performance.now() >= prevTime + 1000 ) {

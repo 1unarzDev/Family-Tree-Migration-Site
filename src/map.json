@@ -1,18 +1,19 @@
 [{
     "code": "GPH",
     "color": "#ff0000",
-    "city": "Funabashi",
-    "province": "Chiba",
+    "city": "Tokyo",
+    "province": "Shinjuku",
     "country": "Japan",
-    "latitude": 35.6764, 
-    "longitude": 139.6500
+    "latitude":  35.7013889, 
+    "longitude": 139.709722
 },
 {
     "code": "CFH",
-    "color": "#0000ff",
+    "color": "#8f8fff",
     "city": "Mansfield",
     "province": "Texas",
     "country": "United States", 
-    "latitude": 32.7767, 
-    "longitude": -96.7970
-}]
+    "latitude": 32.779167, 
+    "longitude": -96.808891
+}
+]

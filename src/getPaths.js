@@ -1,10 +1,10 @@
 import * as THREE from 'three';
 
-function getPaths(path, fromLocation, toLocation, globeRadius, primeMeridianOffset = 200) {
+function getPaths(path, fromLocation, toLocation, globeRadius) {
     // Helper to convert latitude and longitude to Cartesian coordinates
     const latLongToCartesian = (lat, lon, radius) => {
         const phi = (90 - lat) * (Math.PI / 180);  // Convert latitude to radians
-        const theta = (lon + 180 + primeMeridianOffset) * (Math.PI / 180);  // Adjust longitude with prime meridian offset
+        const theta = (-lon + 180) * (Math.PI / 180);  // Adjust longitude with prime meridian offset
         const x = radius * Math.sin(phi) * Math.cos(theta);
         const y = radius * Math.cos(phi);
         const z = radius * Math.sin(phi) * Math.sin(theta);
@@ -13,7 +13,7 @@ function getPaths(path, fromLocation, toLocation, globeRadius, primeMeridianOffs
 
     // Create icosahedron markers at each location
     const createLocationMarker = (location) => {
-        const geometry = new THREE.IcosahedronGeometry(0.25, 2);
+        const geometry = new THREE.IcosahedronGeometry(0.1, 2);
         const material = new THREE.MeshBasicMaterial({ color: location.color });
         const marker = new THREE.Mesh(geometry, material);
 
@@ -27,6 +27,8 @@ function getPaths(path, fromLocation, toLocation, globeRadius, primeMeridianOffs
     // Create markers for each location
     const marker1 = createLocationMarker(fromLocation);
     const marker2 = createLocationMarker(toLocation);
+
+    
 
     // Calculate positions for the arc line
     const start = latLongToCartesian(fromLocation.latitude, fromLocation.longitude, globeRadius);
