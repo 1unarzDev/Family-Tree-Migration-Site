@@ -36,7 +36,9 @@ html, body {
 }
 
 section {
-	width: 100%;
+  display: flex;
+  align-items: center;
+	justify-content: space-between;
 	height: 100vh;	
 	position: relative;
 }
@@ -45,19 +47,20 @@ p {
   color: white;
   padding: 2em;
   font-family: 'Visby-Round', sans-serif;
-  text-align: left;
-  font-size: 2.7vw
+  font-size: 1.8rem;
 }
 
 .align-right {
-  display: flex;
-  justify-content: flex-end;
+  margin-left: auto; 
+  margin-right: 0;
   width: 50vw;
+  text-align: right;
 }
 
 .align-left {
-  align: left;
+  margin-right: auto; 
   width: 50vw;
+  text-align: left;
 }
 
 .header {
@@ -116,29 +119,33 @@ p {
 }
 
 .section-two {
-	background-color: #4682b4;
+	background-color: #7692c4;
 }
 
 .section-three {
-	background-color: #B22222;
+	background-color: #b26262;
 }
 
 .section-four {
-	background-color: #00ff00;
+	background-color: #70ff70;
 }
 
 .section-five {
-	background-color: #808080;
+	background-color: #b29255;
 }
 
 .section-six {
-	background-color: #808080;
+	background-color: #a175f1;
 }
 
 .section-seven {
-	background-color: #808080;
+	background-color: #c2c282;
 }
 
 .section-eight {
-	background-color: #808080;
+	background-color: #f3a2a2;
+}
+
+.section-nine {
+	background-color: #83c2f2;
 }

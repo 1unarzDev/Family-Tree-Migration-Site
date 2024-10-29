@@ -236,7 +236,7 @@ const App = () => {
     const rotationSpeedRef = { value: rotationSpeed };
     // Scroll-triggered Timeline
     const initializeScrollTrigger = () => {
-      const sectionDuration = 1;
+      const sectionDuration = 1.2;
 
       const updateTL = () => {
         const tl1 = gsap.timeline({
@@ -251,46 +251,86 @@ const App = () => {
 
         const tl2 = gsap.timeline({
           scrollTrigger: {
+            trigger: ".hero",
+            scrub: true,
+            start: "top+=5% top",
+            end: "top+=10% top",
+          },
+          defaults: {duration: sectionDuration, ease: 'power2.inOut'}
+        });
+
+        const tl3 = gsap.timeline({
+          scrollTrigger: {
             trigger: ".section",
             scrub: true,
             start: "top top",
-            end: "top+=25% top",
-            onEnter: () => {
-              earthGroup.rotation.y = 0;
-            },
-            onEnterBack: () => {
-              earthGroup.rotation.y = 0;
-            },
+            end: "top+=50% top",
           },
           defaults: {duration: sectionDuration, ease: 'power2.inOut'}
         });
         
-        const pathChild = pathGroup.children[0];
+        const i = 0;
+
+        const pathChild = pathGroup.children[i];
         if (pathChild instanceof THREE.Line){
           var lineMaterialColor = pathChild.material.color;
         }
 
+        const increaseScale = 10;
+
+        const markerChild = markerGroup.children[i].children[1];
+        const glowChild = markerGroup.children[i].children[0];
+        let markerSize = 1;
+        if (markerChild instanceof THREE.Mesh && markerChild.geometry instanceof THREE.IcosahedronGeometry){
+          markerSize = markerChild.geometry.parameters.radius;
+        }
+        let glowSize = 1;
+        if (glowChild instanceof THREE.Mesh && glowChild.geometry instanceof THREE.IcosahedronGeometry){
+          glowSize = glowChild.geometry.parameters.radius;
+          var glowMaterial = glowChild.material;
+        }
+
         tl1.to(rotationSpeedRef, {
-          value: -0.06,
+          value: -25,
           onUpdate: () => {
             rotationSpeed = rotationSpeedRef.value;
           }}, 0)
 
-        tl2.set(earthGroup.rotation, { y: 0 })
-          .to(earthGroup.position, { x: 5 })
+        tl2.to(rotationSpeedRef, {
+          value: -0.06,
+          onUpdate: () => {
+            rotationSpeed = rotationSpeedRef.value;
+          }}, 0)
+            .to(pathGroup.rotation, { y: 0.2 }, 0)
+            .to(markerGroup.rotation, { y: 0.2 }, 0)
+            .to(lightsMesh.rotation, { y: 0.2 }, 0)
+            .to(earthMesh.rotation, { y: 0.2 }, 0)
+            .to(cloudsMesh.rotation, { y: 0.2 }, 0);
+
+        tl3
+          .to(earthGroup.position, { x: -7 })
           .to(camera.position, { z: 20 }, 0)
           .to(earthGroup.rotation, { y: 5 }, 0)
-          .to(camera.position, { z: 25 })
+          .to(camera.position, { z: 21 })
           .to(lineMaterialColor, {
             r: 255,
             g: 255,
             b: 255,
             ease: "power2.inOut"
-          });
-      
+          }, 0)
+          .to(markerChild.scale, { x: increaseScale * markerSize, y: increaseScale * markerSize, z: increaseScale * markerSize }, 0)
+          .to(glowChild.scale, { x: increaseScale * glowSize, y: increaseScale * glowSize, z: increaseScale * glowSize }, 0)
+          .to(glowMaterial, { opacity: 0.8 }, 0)
+          .to(earthGroup.position, { x: 7 })
+          .to(earthGroup.position, { x: -7 })
+          .to(earthGroup.position, { x: 7 })
+          .to(earthGroup.position, { x: -7 });
+
           tl1.add(tl2, "+=0"); 
-          masterTimeline.add(tl1);
-          masterTimeline.add(tl2, `+=0`);
+          tl2.add(tl3, "+=0");
+          masterTimeline.add(tl1, `+=0`);
+          masterTimeline.add(tl2);
+          masterTimeline.add(tl3, `+=0`);
       };    
       updateTL();
     };
@@ -422,6 +462,13 @@ const App = () => {
             </div>
           </section>
           <section className="section-eight">
+          <div className="align-right">
+              <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
+            </div>
+          </section>
+          <section className="section-nine">
           <div className="align-right">
               <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
