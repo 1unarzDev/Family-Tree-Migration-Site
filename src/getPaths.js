@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-function getPaths(path, fromLocation, toLocation, globeRadius) {
+function getPaths(globeRadius, location1, location2 = null, path = null) {
     // Helper to convert latitude and longitude to Cartesian coordinates
     const latLongToCartesian = (lat, lon, radius) => {
         const phi = (90 - lat) * (Math.PI / 180);  // Convert latitude to radians
@@ -13,26 +13,53 @@ function getPaths(path, fromLocation, toLocation, globeRadius) {
 
     // Create icosahedron markers at each location
     const createLocationMarker = (location) => {
+        // Generate a unique color or use location.color
+        const markerColor = new THREE.Color(location.color); // Ensure you provide distinct colors
+    
+        // Create the geometry for the marker
         const geometry = new THREE.IcosahedronGeometry(0.1, 2);
-        const material = new THREE.MeshBasicMaterial({ color: location.color });
+        
+        // Create a mesh material for the main color
+        const material = new THREE.MeshBasicMaterial({ 
+            color: markerColor,
+            transparent: true,
+            opacity: 0.9 // Adjust opacity for a subtle effect
+        });
+    
         const marker = new THREE.Mesh(geometry, material);
-
-        // Position the marker at the location
+    
+        // Create a glow effect using a second larger geometry
+        const glowGeometry = new THREE.IcosahedronGeometry(0.15, 2); // Slightly larger
+        const glowMaterial = new THREE.MeshBasicMaterial({ 
+            color: markerColor, 
+            transparent: true, 
+            opacity: 0.5 // More transparent for a glowing effect
+        });
+    
+        const glowMarker = new THREE.Mesh(glowGeometry, glowMaterial);
+    
+        // Position the markers
         const position = latLongToCartesian(location.latitude, location.longitude, globeRadius);
         marker.position.copy(position);
-
-        return marker;
-    };
-
-    // Create markers for each location
-    const marker1 = createLocationMarker(fromLocation);
-    const marker2 = createLocationMarker(toLocation);
-
+        glowMarker.position.copy(position);
     
+        // Create a group to manage both the marker and its glow
+        const group = new THREE.Group();
+        group.add(glowMarker); // Add glow first
+        group.add(marker); // Add main marker on top
+    
+        return group;
+    };
+    
+    // Create markers for each location
+    if (location2 == null) {
+        const marker = createLocationMarker(location1);
+        return marker;
+    }
 
     // Calculate positions for the arc line
-    const start = latLongToCartesian(fromLocation.latitude, fromLocation.longitude, globeRadius);
-    const end = latLongToCartesian(toLocation.latitude, toLocation.longitude, globeRadius);
+    const start = latLongToCartesian(location1.latitude, location1.longitude, globeRadius);
+    const end = latLongToCartesian(location2.latitude, location2.longitude, globeRadius);
 
     // Generate points for the arc using arcHeight
     const midPoint = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5);
@@ -48,7 +75,7 @@ function getPaths(path, fromLocation, toLocation, globeRadius) {
     const arcLine = new THREE.Line(geometry, material);
 
     // Return the arc line and location markers as requested
-    return { arcLine, marker1, marker2 };
+    return arcLine;
 }
 
 export { getPaths };

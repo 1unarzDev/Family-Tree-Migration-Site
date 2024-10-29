@@ -1,5 +1,5 @@
 [{
-    "code": "GPH",
+    "code": "TYJP",
     "color": "#ff0000",
     "city": "Tokyo",
     "province": "Shinjuku",
@@ -8,12 +8,39 @@
     "longitude": 139.709722
 },
 {
-    "code": "CFH",
+    "code": "MFTX",
     "color": "#8f8fff",
     "city": "Mansfield",
     "province": "Texas",
     "country": "United States", 
     "latitude": 32.779167, 
     "longitude": -96.808891
+},
+{
+    "code": "BNMA",
+    "color": "#8fffff",
+    "city": "Boston",
+    "province": "Massachusetts",
+    "country": "United States", 
+    "latitude": 42.3602778, 
+    "longitude": -71.0577778
+},
+{
+    "code": "DNTX",
+    "color": "#ff8fff",
+    "city": "Denton",
+    "province": "Texas",
+    "country": "United States",
+    "latitude": 33.2163889,
+    "longitude": -97.1291667
+},
+{
+    "code": "IKJP",
+    "color": "#faaf35",
+    "city": "Ichikawa",
+    "province": "Chiba",
+    "country": "Japan",
+    "latitude": 35.7219167,
+    "longitude": 139.931056
 }
 ]

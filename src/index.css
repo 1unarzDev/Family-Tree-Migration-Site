@@ -12,6 +12,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Visby-Round';
+  src: url('assets/fonts/Visby-Round.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
 * {  
   margin: 0;
   padding: 0;
@@ -34,6 +41,25 @@ section {
 	position: relative;
 }
 
+p {
+  color: white;
+  padding: 2em;
+  font-family: 'Visby-Round', sans-serif;
+  text-align: left;
+  font-size: 2.7vw
+}
+
+.align-right {
+  display: flex;
+  justify-content: flex-end;
+  width: 50vw;
+}
+
+.align-left {
+  align: left;
+  width: 50vw;
+}
+
 .header {
   width: 100%;
   display: flex;
@@ -43,7 +69,7 @@ section {
 
 .header .h1 {
   position: relative;
-  font-size: 32vw;
+  font-size: 18vw;
   font-weight: 600; 
   color: #e0e0e0;
   line-height: 1.125;
@@ -76,8 +102,17 @@ section {
   font-size: 20vw;
 }
 
-.hero {
+.bg {
+  position: absolute;
+  width: 30vw; 
+  height: 40vh;
+  top: 25vh;
+  left: 1vw;
+}
 
+.hero {
+  height: 82vh;
+  color: #1a1a1a;
 }
 
 .section-two {

@@ -109,19 +109,23 @@ const App = () => {
     const markerGroup = new THREE.Group();
 
     const createPaths = () => {
+      map.forEach((location: MapData) => {
+        const marker = getPaths(globeRadius, location);
+        markerGroup.add(marker);
+      });
+
       network.forEach((path: NetworkData) => {
-        let fromLocation = map.find((location: MapData) => location.code === path.from);
-        let toLocation = map.find((location: MapData) => location.code === path.to);        
-        let {arcLine, marker1, marker2} = getPaths(path, fromLocation, toLocation, globeRadius);
+        const fromLocation = map.find((location: MapData) => location.code === path.from);
+        const toLocation = map.find((location: MapData) => location.code === path.to);
+        const arcLine = getPaths(globeRadius, fromLocation, toLocation, path);
         pathGroup.add(arcLine);
-        markerGroup.add(marker1, marker2);
-      }); 
+      });
     }
     createPaths();
     earthGroup.add(pathGroup, markerGroup);
 
     // Text Creation //
-    const textGroup = new THREE.Group();
+    /*const textGroup = new THREE.Group();
 
     const createText = () => {
       fontLoader.load("/src/assets/fonts/Proxima-Nova.json", (font) => {
@@ -143,9 +147,9 @@ const App = () => {
       });
     };
     createText();
-    scene.add(textGroup);
+    scene.add(textGroup);*/
 
-    return {scene, earthGroup, pathGroup, markerGroup, textGroup};
+    return {scene, earthGroup, pathGroup, markerGroup/*, textGroup*/};
   };
 
   //  Mounted Once And Only Reruns When The Dependency Array Changes //
@@ -176,42 +180,32 @@ const App = () => {
 
     // Loader Animation //
     const startLoader = () => {
-      let counterElement = document.querySelector(".counter");
+      const counterElement = document.querySelector(".counter");
       let currentValue = 0;
-      const delay = 300;
       const targetValue = 100;
-      
+    
       const updateCounter = () => {
-        const increment = Math.floor(Math.random() * 14) + 1;
-        currentValue += increment;
-    
-        if (currentValue > targetValue) {
-          currentValue = targetValue;
-        }
-    
-        // @ts-ignore
-        counterElement.textContent = currentValue;
-    
-        setTimeout(updateCounter, delay);
-      }
-      updateCounter();
-      if (currentValue >= targetValue) {
-        currentValue = targetValue; // @ts-ignore
-        counterElement.textContent = currentValue;
-        return;
-      }
-    }
-    startLoader();
-    
-    // Text Animations //
+        let increment = Math.floor(Math.random() * 5) + 5;
+        currentValue = Math.min(currentValue + increment, targetValue);
 
+        if (counterElement) counterElement.textContent = currentValue.toString();
+    
+        if (currentValue < targetValue) {
+          setTimeout(() => requestAnimationFrame(updateCounter), 300);
+        } else { // @ts-ignore
+          counterElement.textContent = targetValue.toString();
+        }
+      };
+      updateCounter();
+    };    
+    startLoader();
 
     // GSAP Animation //
     const masterTimeline = gsap.timeline();
 
     masterTimeline.to(".counter", {
       duration: 0.7,
-      delay: 4.75,
+      delay: 6.3,
       opacity: 0,
     })
     .to(".bar", {
@@ -238,28 +232,67 @@ const App = () => {
       initializeScrollTrigger();
     });
     
+    let rotationSpeed = 0.06;
+    const rotationSpeedRef = { value: rotationSpeed };
     // Scroll-triggered Timeline
     const initializeScrollTrigger = () => {
       const sectionDuration = 1;
 
       const updateTL = () => {
-        const tl = gsap.timeline({
+        const tl1 = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".hero",
+            scrub: true,
+            start: "top top",
+            end: "top+=5% top",
+          },
+          defaults: {duration: sectionDuration, ease: 'power2.inOut'}
+        });
+
+        const tl2 = gsap.timeline({
           scrollTrigger: {
             trigger: ".section",
             scrub: true,
             start: "top top",
-            end: "bottom bottom"
+            end: "top+=25% top",
+            onEnter: () => {
+              earthGroup.rotation.y = 0;
+            },
+            onEnterBack: () => {
+              earthGroup.rotation.y = 0;
+            },
           },
           defaults: {duration: sectionDuration, ease: 'power2.inOut'}
         });
+        
+        const pathChild = pathGroup.children[0];
+        if (pathChild instanceof THREE.Line){
+          var lineMaterialColor = pathChild.material.color;
+        }
+
+        tl1.to(rotationSpeedRef, {
+          value: -0.06,
+          onUpdate: () => {
+            rotationSpeed = rotationSpeedRef.value;
+          }}, 0)
+
+        tl2.set(earthGroup.rotation, { y: 0 })
+          .to(earthGroup.position, { x: 5 })
+          .to(camera.position, { z: 20 }, 0)
+          .to(earthGroup.rotation, { y: 5 }, 0)
+          .to(camera.position, { z: 25 })
+          .to(lineMaterialColor, {
+            r: 255,
+            g: 255,
+            b: 255,
+            ease: "power2.inOut"
+          });
       
-        tl.to(earthGroup.rotation, { y: 20 })
-          .to(camera.position, { z: 15 })
-          .to(camera.position, { z: 25 });
-      
-        return tl;
+          tl1.add(tl2, "+=0"); 
+          masterTimeline.add(tl1);
+          masterTimeline.add(tl2, `+=0`);
       };    
-      masterTimeline.add(updateTL());
+      updateTL();
     };
 
     // Helper Functions //
@@ -270,22 +303,17 @@ const App = () => {
     };
     window.addEventListener("resize", onWindowResize);
 
-    let prevTime = 0;
-    let frames = 0;
-    let fps = 60;
+    let prevTime = performance.now();
 
     const animate = () => {
-      pathGroup.rotation.y = markerGroup.rotation.y = lightsMesh.rotation.y = earthMesh.rotation.y += 0.06 / fps;
-      cloudsMesh.rotation.y += 0.072 / fps;
-      
-      // FPS Calculuation //
-      frames ++;
 
-			if ( performance.now() >= prevTime + 1000 ) {
-				fps = frames / (performance.now() - prevTime) * 1000;
-				prevTime = performance.now();
-				frames = 0;
-      }
+     // Animation + Speed Correction //
+      const currentTime = performance.now();
+      const deltaTime = (currentTime - prevTime) / 1000;
+      prevTime = currentTime;
+    
+      pathGroup.rotation.y = markerGroup.rotation.y = lightsMesh.rotation.y = earthMesh.rotation.y += rotationSpeed * deltaTime;
+      cloudsMesh.rotation.y += (rotationSpeed + 0.012) * deltaTime;
 
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
@@ -313,7 +341,7 @@ const App = () => {
         <div className="bar"></div>
         <div className="bar"></div>
         <div className="bar"></div>
-        <div className="bar"></div>
+        <div className="bar"></div> 
         <div className="bar"></div>
         <div className="bar"></div>
         <div className="bar"></div>
@@ -323,12 +351,18 @@ const App = () => {
       </div>
 
       <div className="header">
-        <div className="h1">L</div>
+        <div className="h1">M</div>
         <div className="h1">i</div>
+        <div className="h1">g</div>
+        <div className="h1">r</div>
         <div className="h1">a</div>
-        <div className="h1">m</div>
-        <div className="h1">.</div>
+        <div className="h1">t</div>
+        <div className="h1">i</div>
+        <div className="h1">o</div>
+        <div className="h1">n</div>
       </div>
+
+      <img src="src/assets/images/birds.svg" className="bg"/>
 
       {/* <svg height="100px" width="200px" transform="translate(20,2.5)">
         <filter id="grainy">
@@ -345,13 +379,55 @@ const App = () => {
       {!isLoading && (
         <>
           <section className="hero"></section>
-          <section className="section-two"></section>
-          <section className="section-three"></section>
-          <section className="section-four"></section>
-          <section className="section-five"></section>
-          <section className="section-six"></section>
-          <section className="section-seven"></section>
-          <section className="section-eight"></section>
+          <section className="section-two">
+            <div className="align-right">
+              <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
+            </div>
+          </section>
+          <section className="section-three">
+          <div className="align-left">
+              <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
+            </div>
+          </section>
+          <section className="section-four">
+          <div className="align-right">
+              <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
+            </div>
+          </section>
+          <section className="section-five">
+          <div className="align-left">
+              <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
+            </div>
+          </section>
+          <section className="section-six">
+          <div className="align-right">
+              <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
+            </div>
+          </section>
+          <section className="section-seven">
+          <div className="align-left">
+              <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
+            </div>
+          </section>
+          <section className="section-eight">
+          <div className="align-right">
+              <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
+            </div>
+          </section>
         </>
       )}
     </main>

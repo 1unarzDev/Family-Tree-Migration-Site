@@ -1,12 +1,12 @@
 [{
-    "from": "GPH",
-    "to": "CFH",
+    "from": "TYJP",
+    "to": "MFTX",
     "arcHeight": 7,
     "color": "#af0a12"
 },
 {
-    "from": "CFH",
-    "to": "GPH",
+    "from": "MFTX",
+    "to": "TYJP",
     "arcHeight": 5,
     "color": "#00ff70"
 }]
