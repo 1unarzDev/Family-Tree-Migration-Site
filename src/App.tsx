@@ -442,21 +442,21 @@ const App = () => {
           <section className="section-four">
           <div className="align-right">
               <p>
-                  asdf
+                  
               </p>
             </div>
           </section>
           <section className="section-five">
           <div className="align-left">
               <p>
-                asdf
+                
               </p>
             </div>
           </section>
           <section className="section-six">
           <div className="align-right">
               <p>
-                asdf
+                
               </p>
             </div>
           </section>
