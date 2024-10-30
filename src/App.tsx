@@ -1,7 +1,5 @@
 // IMPORTS //
 import * as THREE from 'three';
-import { FontLoader } from 'three/addons/loaders/FontLoader.js';
-import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { useEffect, useState } from 'react'; //@ts-ignore
 import { getFresnelMat } from "/src/getFresnelMat.js"; //@ts-ignore
 import { getStarfield } from "/src/getStarfield.js"; //@ts-ignore
@@ -69,14 +67,6 @@ const glowMesh = new THREE.Mesh(
   new THREE.IcosahedronGeometry(globeRadius, 12),
   getFresnelMat()
 );
-
-// Animated Text //
-const fontLoader = new FontLoader();
-const textBlocks = [
-  { text: "Lorem ipsum dolor", position: { x: 0, y: 0, z: 20 } },
-  { text: "Sit amet", position: { x: 10, y: 20, z: 0 } },
-  { text: "Consectetur adipiscing elit", position: { x: 20, y: 0, z: 0 } },
-];
 
 // React App Component That Renders // 
 const App = () => {
