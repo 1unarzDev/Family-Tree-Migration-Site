@@ -45,9 +45,9 @@ section {
 
 p {
   color: white;
-  padding: 2em;
+  padding: 6vw;
   font-family: 'Visby-Round', sans-serif;
-  font-size: 1.8rem;
+  font-size: 2vw;
 }
 
 .align-right {
@@ -114,7 +114,7 @@ p {
 }
 
 .hero {
-  height: 82vh;
+  height: 100vh;
   color: #1a1a1a;
 }
 

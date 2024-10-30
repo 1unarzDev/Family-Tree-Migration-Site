@@ -6,7 +6,11 @@ import { useEffect, useState } from 'react'; //@ts-ignore
 import { getFresnelMat } from "/src/getFresnelMat.js"; //@ts-ignore
 import { getStarfield } from "/src/getStarfield.js"; //@ts-ignore
 import { getPaths } from "/src/getPaths.js"
-import './App.css'; //@ts-ignore
+import './App.css'; 
+
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger); //@ts-ignore
 
 import map from '/src/map.json'; //@ts-ignore
 import network from '/src/network.json'
@@ -27,10 +31,6 @@ interface NetworkData{
   arcHeight: number;
   color: string;
 }
-
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-gsap.registerPlugin(ScrollTrigger);
 
 // Define Static Variables //
 const textureLoader = new THREE.TextureLoader();
@@ -200,140 +200,155 @@ const App = () => {
     };    
     startLoader();
 
-    // GSAP Animation //
-    const masterTimeline = gsap.timeline();
+     // GSAP Animation //
+     const masterTimeline = gsap.timeline();
 
-    masterTimeline.to(".counter", {
-      duration: 0.7,
-      delay: 6.3,
-      opacity: 0,
-    })
-    .to(".bar", {
-      duration: 1.5,
-      height: 0,
-      stagger: {
-        amount: 0.5,
-      },
-      ease: "power4.inOut",
-    }, "-=1.25")
-    .fromTo(".h1", {
-      duration: 2,
-      y: 700,
-      ease: "power4.inOut",
-    }, {
-      y: 0,
-      stagger: {
-        amount: 0.5,
-      },
-    }, '<.75')
-    .add(() => {
-      setIsLoading(false); // Set loading state to false after animations
-      // Initialize ScrollTrigger here
-      initializeScrollTrigger();
-    });
-    
-    let rotationSpeed = 0.06;
-    const rotationSpeedRef = { value: rotationSpeed };
-    // Scroll-triggered Timeline
-    const initializeScrollTrigger = () => {
-      const sectionDuration = 1.2;
-
-      const updateTL = () => {
-        const tl1 = gsap.timeline({
-          scrollTrigger: {
-            trigger: ".hero",
-            scrub: true,
-            start: "top top",
-            end: "top+=5% top",
-          },
-          defaults: {duration: sectionDuration, ease: 'power2.inOut'}
-        });
-
-        const tl2 = gsap.timeline({
-          scrollTrigger: {
-            trigger: ".hero",
-            scrub: true,
-            start: "top+=5% top",
-            end: "top+=10% top",
-          },
-          defaults: {duration: sectionDuration, ease: 'power2.inOut'}
-        });
-
-        const tl3 = gsap.timeline({
-          scrollTrigger: {
-            trigger: ".section",
-            scrub: true,
-            start: "top top",
-            end: "top+=50% top",
-          },
-          defaults: {duration: sectionDuration, ease: 'power2.inOut'}
-        });
-        
-        const i = 0;
-
-        const pathChild = pathGroup.children[i];
-        if (pathChild instanceof THREE.Line){
-          var lineMaterialColor = pathChild.material.color;
-        }
-
-        const increaseScale = 10;
-
-        const markerChild = markerGroup.children[i].children[1];
-        const glowChild = markerGroup.children[i].children[0];
-        let markerSize = 1;
-        if (markerChild instanceof THREE.Mesh && markerChild.geometry instanceof THREE.IcosahedronGeometry){
-          markerSize = markerChild.geometry.parameters.radius;
-        }
-        let glowSize = 1;
-        if (glowChild instanceof THREE.Mesh && glowChild.geometry instanceof THREE.IcosahedronGeometry){
-          glowSize = glowChild.geometry.parameters.radius;
-          var glowMaterial = glowChild.material;
-        }
-
-        tl1.to(rotationSpeedRef, {
-          value: -25,
-          onUpdate: () => {
-            rotationSpeed = rotationSpeedRef.value;
-          }}, 0)
-
-        tl2.to(rotationSpeedRef, {
-          value: -0.06,
-          onUpdate: () => {
-            rotationSpeed = rotationSpeedRef.value;
-          }}, 0)
-            .to(pathGroup.rotation, { y: 0.2 }, 0)
-            .to(markerGroup.rotation, { y: 0.2 }, 0)
-            .to(lightsMesh.rotation, { y: 0.2 }, 0)
-            .to(earthMesh.rotation, { y: 0.2 }, 0)
-            .to(cloudsMesh.rotation, { y: 0.2 }, 0);
-
-        tl3
-          .to(earthGroup.position, { x: -7 })
-          .to(camera.position, { z: 20 }, 0)
-          .to(earthGroup.rotation, { y: 5 }, 0)
-          .to(camera.position, { z: 21 })
-          .to(lineMaterialColor, {
-            r: 255,
-            g: 255,
-            b: 255,
-            ease: "power2.inOut"
+     masterTimeline.to(".counter", {
+       duration: 0.7,
+       delay: 6.3,
+       opacity: 0,
+     })
+     .to(".bar", {
+       duration: 1.5,
+       height: 0,
+       stagger: {
+         amount: 0.5,
+       },
+       ease: "power4.inOut",
+     }, "-=1.25")
+     .fromTo(".h1", {
+       duration: 2,
+       y: 1000,
+       ease: "power4.inOut",
+     }, {
+       y: 0,
+       stagger: {
+         amount: 0.5,
+       },
+     }, '<.75')
+     .add(() => {
+       setIsLoading(false); // Set loading state to false after animations
+       // Initialize ScrollTrigger here
+       initializeScrollTrigger();
+     });
+     
+     let rotationSpeed = 0.06;
+     const rotationSpeedRef = { value: rotationSpeed };
+     // Scroll-triggered Timeline
+     const initializeScrollTrigger = () => {
+       const sectionDuration = 1.2;
+ 
+       const updateTL = () => {
+         const tl1 = gsap.timeline({
+           scrollTrigger: {
+             trigger: ".hero",
+             scrub: 0.7,
+             start: "top top",
+             end: "top+=25% top",
+           },
+           defaults: {duration: sectionDuration, ease: 'power2.inOut'}
+         });
+ 
+         const tl2 = gsap.timeline({
+           scrollTrigger: {
+             trigger: ".hero",
+             scrub: 0.7,
+             start: "top+=25% top",
+             end: "top+=50% top",
+           },
+           defaults: {duration: sectionDuration, ease: 'power2.inOut'}
+         });
+ 
+         const tl3 = gsap.timeline({
+           scrollTrigger: {
+             trigger: ".section",
+             scrub: 0.7,
+             snap: {
+              snapTo: 1/8.1
+             },
+             start: "top top",
+             end: "top+=90% top",
+           },
+           defaults: {duration: sectionDuration, ease: 'power2.inOut'}
+         });
+         
+         const i = 0;
+ 
+         const pathChild = pathGroup.children[i];
+         if (pathChild instanceof THREE.Line){
+           var lineMaterialColor = pathChild.material.color;
+         }
+ 
+         const increaseScale = 10;
+ 
+         const markerChild = markerGroup.children[i].children[1];
+         const glowChild = markerGroup.children[i].children[0];
+         let markerSize = 1;
+         if (markerChild instanceof THREE.Mesh && markerChild.geometry instanceof THREE.IcosahedronGeometry){
+           markerSize = markerChild.geometry.parameters.radius;
+         }
+         let glowSize = 1;
+         if (glowChild instanceof THREE.Mesh && glowChild.geometry instanceof THREE.IcosahedronGeometry){
+           glowSize = glowChild.geometry.parameters.radius;
+           var glowMaterial = glowChild.material;
+         }
+ 
+          tl1.to(rotationSpeedRef, {
+            value: -25,
+            onUpdate: () => {
+              rotationSpeed = rotationSpeedRef.value;
+            },
           }, 0)
-          .to(markerChild.scale, { x: increaseScale * markerSize, y: increaseScale * markerSize, z: increaseScale * markerSize }, 0)
-          .to(glowChild.scale, { x: increaseScale * glowSize, y: increaseScale * glowSize, z: increaseScale * glowSize }, 0)
-          .to(glowMaterial, { opacity: 0.8 }, 0)
-          .to(earthGroup.position, { x: 7 })
-          .to(earthGroup.position, { x: -7 })
-          .to(earthGroup.position, { x: 7 })
-          .to(earthGroup.position, { x: -7 });
 
-          tl1.add(tl2, "+=0"); 
-          tl2.add(tl3, "+=0");
-          masterTimeline.add(tl1, `+=0`);
-          masterTimeline.add(tl2);
-          masterTimeline.add(tl3, `+=0`);
-      };    
-      updateTL();
-    };
+          const rotationLocation = [0.2, 1, -0.3, 0.7, -0.5, 1.3];
+
+          tl2.to(rotationSpeedRef, {
+                value: -0.06,
+                onUpdate: () => {
+                  rotationSpeed = rotationSpeedRef.value;
+                },
+              }, 0)
+              .to(pathGroup.rotation, { y: rotationLocation[0] }, 0)
+              .to(markerGroup.rotation, { y: rotationLocation[0] }, 0)
+              .to(lightsMesh.rotation, { y: rotationLocation[0] }, 0)
+              .to(earthMesh.rotation, { y: rotationLocation[0] }, 0)
+              .to(cloudsMesh.rotation, { y: rotationLocation[0] }, 0);
+ 
+          tl3
+            .to(earthGroup.position, { x: -7 }, 0)
+            .to(camera.position, { z: 20 }, 0)
+            .to(earthGroup.rotation, { y: 5 }, 0)
+            .to(lineMaterialColor, {
+              r: 255,
+              g: 255,
+              b: 255,
+            }, 0)
+            .to(markerChild.scale, { x: increaseScale * markerSize, y: increaseScale * markerSize, z: increaseScale * markerSize }, 0)
+            .to(glowChild.scale, { x: increaseScale * glowSize, y: increaseScale * glowSize, z: increaseScale * glowSize }, 0)
+            .to(glowMaterial, { opacity: 0.8 }, 0);
+
+          const tl31 = gsap.timeline({defaults: {duration: sectionDuration, ease: 'power2.inOut'}});
+          tl31
+            .to(earthGroup.position, { x: 7 }, 0)
+            .to(pathGroup.rotation, { y: rotationLocation[1] }, 0)
+            .to(markerGroup.rotation, { y: rotationLocation[1] }, 0)
+            .to(lightsMesh.rotation, { y: rotationLocation[1] }, 0)
+            .to(earthMesh.rotation, { y: rotationLocation[1] }, 0)
+            .to(cloudsMesh.rotation, { y: rotationLocation[1] }, 0);
+          tl3.add(tl31);
+
+          tl3
+            .to(earthGroup.position, { x: -7 })
+            .to(earthGroup.position, { x: 7 })
+            .to(earthGroup.position, { x: -7 })
+            .to(earthGroup.position, { x: 7 })
+            .to(earthGroup.position, { x: -7 })
+            .to(earthGroup.position, { x: 7 })
+
+            masterTimeline.add(tl1).add(tl2, `+=0`).add(tl3, `+=0`);
+       };    
+       updateTL();
+     };
 
     // Helper Functions //
     const onWindowResize = () => {
@@ -374,32 +389,33 @@ const App = () => {
   // HTML Return Statement //
   return (
     <main>
+      <div className="hero">
+        <h1 className="counter">0</h1>
 
-      <h1 className="counter">0</h1>
+        <div className="overlay">
+          <div className="bar"></div>
+          <div className="bar"></div>
+          <div className="bar"></div>
+          <div className="bar"></div> 
+          <div className="bar"></div>
+          <div className="bar"></div>
+          <div className="bar"></div>
+          <div className="bar"></div>
+          <div className="bar"></div>
+          <div className="bar"></div>
+        </div>
 
-      <div className="overlay">
-        <div className="bar"></div>
-        <div className="bar"></div>
-        <div className="bar"></div>
-        <div className="bar"></div> 
-        <div className="bar"></div>
-        <div className="bar"></div>
-        <div className="bar"></div>
-        <div className="bar"></div>
-        <div className="bar"></div>
-        <div className="bar"></div>
-      </div>
-
-      <div className="header">
-        <div className="h1">M</div>
-        <div className="h1">i</div>
-        <div className="h1">g</div>
-        <div className="h1">r</div>
-        <div className="h1">a</div>
-        <div className="h1">t</div>
-        <div className="h1">i</div>
-        <div className="h1">o</div>
-        <div className="h1">n</div>
+        <div className="header">
+          <div className="h1">M</div>
+          <div className="h1">i</div>
+          <div className="h1">g</div>
+          <div className="h1">r</div>
+          <div className="h1">a</div>
+          <div className="h1">t</div>
+          <div className="h1">i</div>
+          <div className="h1">o</div>
+          <div className="h1">n</div>
+        </div>
       </div>
 
       <img src="src/assets/images/birds.svg" className="bg"/>
@@ -418,7 +434,6 @@ const App = () => {
       {/* Conditionally render sections based on loading state */}
       {!isLoading && (
         <>
-          <section className="hero"></section>
           <section className="section-two">
             <div className="align-right">
               <p>
@@ -469,7 +484,7 @@ const App = () => {
             </div>
           </section>
           <section className="section-nine">
-          <div className="align-right">
+          <div className="align-left">
               <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </p>

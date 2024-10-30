@@ -1,11 +1,38 @@
 [{
+    "code": "MTIK",
+    "color": "#FFFFB1",
+    "city": "Mito",
+    "province": "Ibaraki",
+    "country": "Japan",
+    "latitude": 36.3658333,
+    "longitude": 140.47125
+},
+{
+    "code": "TYMA",
+    "color": "#8a12ff",
+    "city": "Toyama",
+    "province": "Toyama",
+    "country": "Japan",
+    "latitude": 36.6959167,
+    "longitude": 137.213694
+},
+{
     "code": "TYJP",
-    "color": "#ff0000",
+    "color": "#ff8080",
     "city": "Tokyo",
     "province": "Shinjuku",
     "country": "Japan",
     "latitude":  35.7013889, 
     "longitude": 139.709722
+},
+{
+    "code": "IKJP",
+    "color": "#AAD9B1",
+    "city": "Ichikawa",
+    "province": "Chiba",
+    "country": "Japan",
+    "latitude": 35.7219167,
+    "longitude": 139.931056
 },
 {
     "code": "MFTX",
@@ -35,12 +62,57 @@
     "longitude": -97.1291667
 },
 {
-    "code": "IKJP",
-    "color": "#faaf35",
-    "city": "Ichikawa",
-    "province": "Chiba",
-    "country": "Japan",
-    "latitude": 35.7219167,
-    "longitude": 139.931056
+    "code": "VLCA",
+    "color": "#A4D7F1",
+    "city": "Valencia",
+    "province": "California",
+    "country": "United States",
+    "latitude": 34.42,
+    "longitude": -118.60
+},
+{
+    "code": "AUTX",
+    "color": "#E6F57E",
+    "city": "Austin",
+    "province": "Texas",
+    "country": "United States",
+    "latitude": 30.2672222,
+    "longitude": -97.7430556
+},
+{
+    "code": "ARTX",
+    "color": "#3F69F1",
+    "city": "Arlington",
+    "province": "Texas",
+    "country": "United States",
+    "latitude": 32.705,
+    "longitude": 97.1227778
+},
+{
+    "code": "FWTX",
+    "color": "#5651F3",
+    "city": "Fort Worth",
+    "province": "Texas",
+    "country": "United States",
+    "latitude": 32.7769444,
+    "longitude": -97.3325
+},
+{
+    "code": "MDMA",
+    "color": "#EAB8D1",
+    "city": "Medway", 
+    "province": "Massachusetts",
+    "country": "United States",
+    "latitude": 42.1416667,
+    "longitude": -71.3972222
+},
+{
+    "code": "DBPN",
+    "color": "#FAC898",
+    "city": "Darby",
+    "province": "Pennsylvania",
+    "country": "United States",
+    "latitude": 39.9183333,
+    "longitude": -75.2583333
 }
 ]

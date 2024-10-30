@@ -1,12 +1,73 @@
 [{
-    "from": "TYJP",
-    "to": "MFTX",
-    "arcHeight": 7,
+    "from": "MTIK",
+    "to": "TYJP",
+    "arcHeight": 0.3,
+    "color": "#FDF1B1"
+},
+{
+    "from": "TYMA",
+    "to": "TYJP",
+    "arcHeight": 1,
     "color": "#af0a12"
 },
 {
-    "from": "MFTX",
-    "to": "TYJP",
+    "from": "TYJP",
+    "to": "IKJP",
+    "arcHeight": 0.5,
+    "color": "#ff8fff"
+},
+{
+    "from": "IKJP",
+    "to": "TYMA",
+    "arcHeight": 0.3,
+    "color": "#5f8aaf"
+},
+{
+    "from": "TYJP",
+    "to": "FWTX",
     "arcHeight": 5,
     "color": "#00ff70"
-}]
+},
+{
+    "from": "BNMA",
+    "to": "VLCA",
+    "arcHeight": 4,
+    "color": "#8a12ff"
+},
+{
+    "from": "VLCA",
+    "to": "MDMA",
+    "arcHeight": 4,
+    "color": "#8f8fff"
+},
+{
+    "from": "MDMA",
+    "to": "ARTX",
+    "arcHeight": 3,
+    "color": "#AFF961" 
+},
+{
+    "from": "ARTX",
+    "to": "AUTX",
+    "arcHeight": 3.5,
+    "color": "#0Ff931" 
+},
+{
+    "from": "AUTX",
+    "to": "ARTX",
+    "arcHeight": 5,
+    "color": "#0f7a7a" 
+},
+{
+    "from": "ARTX",
+    "to": "TYJP",
+    "arcHeight": 4,
+    "color": "#bf6aaa" 
+},
+{
+    "from": "FWTX",
+    "to": "MFTX",
+    "arcHeight": 0.2,
+    "color": "#FDFFD1"
+}
+]
