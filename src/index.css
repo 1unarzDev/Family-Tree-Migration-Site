@@ -47,6 +47,32 @@ p {
   color: white;
   padding: 6vw;
   font-family: 'Visby-Round', sans-serif;
+  font-size: 7vw;
+}
+
+h2 {
+  color: white;
+  padding-left: 4vw;
+  padding-top: 4vh;
+  padding-bottom: 1vw;
+  font-family: 'Visby-Round', sans-serif;
+  font-size: 3vw;
+  weight: 40
+}
+
+ul {
+  color: white;
+  padding-left: 6vw;
+  padding-right: 6vw;
+  font-family: 'Visby-Round', sans-serif;
+  font-size: 2vw;
+}
+
+.small-paragraph {
+  color: white;
+  left-padding: 4vw;
+  right-padding: 10vw;
+  font-family: 'Visby-Round', sans-serif;
   font-size: 2vw;
 }
 
@@ -147,4 +173,5 @@ p {
 
 .section-nine {
 	background-color: #83c2f2;
+  height: 280vh;
 }

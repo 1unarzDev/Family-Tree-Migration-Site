@@ -334,6 +334,7 @@ const App = () => {
             .to(earthGroup.position, { x: 7 })
             .to(earthGroup.position, { x: -7 })
             .to(earthGroup.position, { x: 7 })
+            .to(earthGroup.position, { y: 20 })
 
             masterTimeline.add(tl1).add(tl2, `+=0`).add(tl3, `+=0`);
        };    
@@ -427,57 +428,87 @@ const App = () => {
           <section className="section-two">
             <div className="align-right">
               <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                My maternal grandparents both moved to Tokyo to attend university. They met in Tokyo and eventually decided to move to Ichikawa for better economic conditions and to have children.
               </p>
             </div>
           </section>
           <section className="section-three">
           <div className="align-left">
               <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                After my mother was born, my maternal grandparents moved with her to Toyama, my maternal grandfathers hometown. Here, they started a business and raised my mother.
               </p>
             </div>
           </section>
           <section className="section-four">
           <div className="align-right">
               <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  asdf
               </p>
             </div>
           </section>
           <section className="section-five">
           <div className="align-left">
               <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                asdf
               </p>
             </div>
           </section>
           <section className="section-six">
           <div className="align-right">
               <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                asdf
               </p>
             </div>
           </section>
           <section className="section-seven">
           <div className="align-left">
               <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Eventually, my father went to Japna to improve his Japanese speaking ability. Around the same time, my mother was living in Tokyo after attending a medical school. 
               </p>
             </div>
           </section>
           <section className="section-eight">
           <div className="align-right">
               <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                All of this has lead up to where I am today. My parents eventually moved to Fort Worth and had my brother and I. After a few years, my family moved to Mansfield due to the better access to education.
               </p>
             </div>
           </section>
           <section className="section-nine">
-          <div className="align-left">
-              <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </p>
+          <div>
+              <h2>What are/were the occupations of all your maternal and paternal grandparents?</h2>
+              <div className="small-paragraph">My maternal grandmother was a piano teacher; my maternal grandfather was a nuclear power plant engineer; my paternal grandmother was a dietition; my paternal grandfather was an electrical engineer.</div>
+              <h2>What were push/pull factors if your grandparents moved around or stayed in one place?</h2>
+              <div className="small-paragraph">My maternal grandfather and grandmother both moved from their hometowns to Tokyo in order to pursue higher education (pull). After meeting each other, they migrated to Ichikawa, a suburb of Tokyo, due to the lower costs of items (economic push/pull), while still being able to work in the urban city of Toyko. Once they had my mother, they moved to Toyama after a few years because they wanted to start a business in my grandfather’s hometown.</div>
+              <div className="small-paragraph">On my father’s side of the family, my paternal grandfather migrated throughout the US for his work at Lockheed Martin as an electrical engineer. My paternal grandmother, on the other hand, was originally from Massachusetts, so she remained there until she met my grandfather, so she followed him for his work.</div>
+              <h2>What are the occupations of your parents?</h2>
+              <div className="small-paragraph">My father is a police officer, and my mother does real estate work.</div>
+              <h2>What were the push/pull factors if your parents moved around or stayed in one place?</h2>
+              <div className="small-paragraph">When my parents were younger, they primarily moved for education or economic reasons. Both of my parents migrated to receive a university degree, and my father moved to Japan for a few years to bolster his Japanese skills. After my parents met, they decided to move to Texas due to better economic opportunities and a better environment for raising children.</div>
+              <h2>What mode of transportation was used in any of the above moves?</h2>
+              <div className="small-paragraph">The main modes of transportation that were used during each move were car, train, and airplane. Each move within Japan was made by using a combination of trains (the primary mode of transportation due to space constraints) and cars to effectively transport personal belongings. My father’s side of the family made many of their moves by using cars and airplanes depending on the distance traveled. When my father and mother were moving from Japan to the US, the only viable mode of transportation was an airplane.</div>
+              <h2>Interregional Migration (Internal):</h2>
+              <ul>
+                <li>The move from Toyama to Tokyo is considered interregional migration because Toyama is in a region northwest of Tokyo.</li>
+                <li>Similar to the move from Toyama, the move from Mito to Tokyo is also considered interregional migration because Mito is in a different region north of Tokyo, the capital of Japan, but it is still within the same country.</li>
+                <li>Ichikawa to Toyama</li>
+                <li>Boston, Massachusetts, to Valencia, California</li>
+                <li>Valencia, California, to Medway, Massachusetts</li>
+                <li>Medway, Massachusetts, to Arlington, Texas</li>
+                <li>The move from Arlington to Austin could be considered intraregional in some cases; however, they are quite far apart, and they are very different from one another, so it is better categorized as a form of interregional migration.</li>
+              </ul>
+
+              <h2>International Migration (Internal):</h2>
+              <ul>
+                <li>The move from Arlington, Texas, to Tokyo, Japan, is considered international migration because you are moving between countries, from the United States to Japan.</li>
+                <li>Moving from Tokyo, Japan, to Fort Worth, Texas, is also a form of international migration.</li>
+              </ul>
+
+              <h2>Intraregional Migration: </h2>
+              <ul>
+                <li>Ichikawa is a suburb of Tokyo, so the move from Tokyo to Ichikawa (suburbanization) is considered a form of intraregional migration because you are still in the same region.</li>
+                <li>The move from Fort Worth to Mansfield is considered intraregional migration because you are moving within the DFW region.</li>
+              </ul>
             </div>
           </section>
         </>
