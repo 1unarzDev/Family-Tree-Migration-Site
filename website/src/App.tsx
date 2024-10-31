@@ -77,7 +77,6 @@ const glowMesh = new THREE.Mesh(
 const App = () => {
   // Define States //
   const [isLoading, setIsLoading] = useState(true);
-  const [stoppedRotating, setStoppedRotating] = useState(false);
 
   // Scene Initialization (Items That Will Change Over Time) //
   const createScene = () => {
