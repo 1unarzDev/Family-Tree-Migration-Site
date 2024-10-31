@@ -25,7 +25,7 @@
 {
     "from": "TYJP",
     "to": "FWTX",
-    "arcHeight": 5,
+    "arcHeight": 5.4,
     "color": "#00ff70"
 },
 {
@@ -43,25 +43,25 @@
 {
     "from": "MDMA",
     "to": "ARTX",
-    "arcHeight": 3,
+    "arcHeight": 2,
     "color": "#AFF961" 
 },
 {
     "from": "ARTX",
     "to": "AUTX",
-    "arcHeight": 3.5,
+    "arcHeight": 0.75,
     "color": "#0Ff931" 
 },
 {
     "from": "AUTX",
     "to": "ARTX",
-    "arcHeight": 5,
+    "arcHeight": 1,
     "color": "#0f7a7a" 
 },
 {
     "from": "ARTX",
     "to": "TYJP",
-    "arcHeight": 4,
+    "arcHeight": 6,
     "color": "#bf6aaa" 
 },
 {

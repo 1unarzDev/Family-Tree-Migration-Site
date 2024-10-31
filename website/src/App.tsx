@@ -88,7 +88,7 @@ const App = () => {
     scene.add(earthGroup);
 
     cloudsMesh.scale.setScalar(1.01);
-    glowMesh.scale.setScalar(1.012);
+    glowMesh.scale.setScalar(1.011);
 
     earthGroup.add(earthMesh, lightsMesh, cloudsMesh, glowMesh);
 
@@ -102,14 +102,14 @@ const App = () => {
 
     const createPaths = () => {
       map.forEach((location: MapData) => {
-        const marker = getPaths(globeRadius, location);
+        const marker = getPaths(globeRadius-0.05, location);
         markerGroup.add(marker);
       });
 
       network.forEach((path: NetworkData) => {
         const fromLocation = map.find((location: MapData) => location.code === path.from);
         const toLocation = map.find((location: MapData) => location.code === path.to);
-        const arcLine = getPaths(globeRadius, fromLocation, toLocation, path);
+        const arcLine = getPaths(globeRadius-0.05, fromLocation, toLocation, path);
         pathGroup.add(arcLine);
       });
     }
@@ -244,14 +244,16 @@ const App = () => {
             //   snapTo: 0.1
             //  },
              start: "top top",
-             end: "top+=75% top",
+             end: "top+=70% top",
            },
            defaults: {ease: 'power2.inOut'}
          });
          
          const i = 0;
- 
-         const pathChild = pathGroup.children[i];
+         const j = 0;
+
+
+         const pathChild = pathGroup.children[j];
          if (pathChild instanceof THREE.Line){
            var lineMaterialColor = pathChild.material.color;
          }
@@ -270,7 +272,7 @@ const App = () => {
             var glowMaterial = glowChild.material;
           }
 
-         const rotationLocation = [0.2, 1, -0.3, 0.7, -0.5, 1.3, -0.78, 0.9];
+         const rotationLocation = [0.25, 0.45, 0.275, 0.7, -0.5, 1.3, -1.3];
 
           tl1.to(rotationSpeedRef, {
             value: -1,
@@ -295,7 +297,7 @@ const App = () => {
             }, 0)
             .to(markerChild.scale, { x: increaseScale * markerSize, y: increaseScale * markerSize, z: increaseScale * markerSize }, 0)
             .to(glowChild.scale, { x: increaseScale * glowSize, y: increaseScale * glowSize, z: increaseScale * glowSize }, 0)
-            .to(glowMaterial, { opacity: 0.8 }, 0);
+            .to(glowMaterial, { opacity: 1 }, 0);
 
           const tl21 = gsap.timeline({defaults: {ease: 'power2.inOut'}});
           tl21
@@ -477,7 +479,7 @@ const App = () => {
           <section className="section-seven">
           <div className="align-left">
               <p>
-                Eventually, my father went to Japna to improve his Japanese speaking ability. Around the same time, my mother was living in Tokyo after attending a medical school. 
+                Eventually, my father went to Japan to improve his Japanese speaking ability. Around the same time, my mother was living in Tokyo after attending a pharmacy school. 
               </p>
             </div>
           </section>
