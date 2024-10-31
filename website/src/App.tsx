@@ -42,9 +42,9 @@ const globeRadius = 10;
 const earthMesh = new THREE.Mesh(
   new THREE.IcosahedronGeometry(globeRadius, 12),
   new THREE.MeshPhongMaterial({
-    map: textureLoader.load("src/assets/textures/earthmap4k.jpg"),
-    specularMap: textureLoader.load("src/assets/textures/earthspec4k.jpg"),
-    bumpMap: textureLoader.load("src/assets/textures/earthbump4k.jpg"),
+    map: textureLoader.load("./src/assets/textures/earthmap4k.jpg"),
+    specularMap: textureLoader.load("./src/assets/textures/earthspec4k.jpg"),
+    bumpMap: textureLoader.load("./src/assets/textures/earthbump4k.jpg"),
     bumpScale: 15,
   })
 );
@@ -52,7 +52,7 @@ const earthMesh = new THREE.Mesh(
 const lightsMesh = new THREE.Mesh(
   new THREE.IcosahedronGeometry(globeRadius, 12), 
   new THREE.MeshBasicMaterial({
-    map: textureLoader.load("src/assets/textures/earthlights4k.jpg"),
+    map: textureLoader.load("./src/assets/textures/earthlights4k.jpg"),
     blending: THREE.AdditiveBlending,
   })
 );
@@ -60,8 +60,8 @@ const lightsMesh = new THREE.Mesh(
 const cloudsMesh = new THREE.Mesh(
   new THREE.IcosahedronGeometry(globeRadius, 12),
   new THREE.MeshStandardMaterial({
-    map: textureLoader.load("src/assets/textures/earthhiresclouds4K.jpg"),
-    alphaMap: textureLoader.load("src/assets/textures/earthcloudmaptrans.jpg"),
+    map: textureLoader.load("./src/assets/textures/earthhiresclouds4K.jpg"),
+    alphaMap: textureLoader.load("./src/assets/textures/earthcloudmaptrans.jpg"),
     blending: THREE.AdditiveBlending,
     transparent: true,
     opacity: 0.8,
@@ -225,8 +225,6 @@ const App = () => {
      const rotationSpeedRef = { value: rotationSpeed };
      // Scroll-triggered Timeline
      const initializeScrollTrigger = () => {
-       const sectionDuration = 1.2;
- 
        const updateTL = () => {
          const tl1 = gsap.timeline({
            scrollTrigger: {
@@ -235,20 +233,20 @@ const App = () => {
              start: "top top",
              end: "top+=20% top",
            },
-           defaults: {duration: sectionDuration, ease: 'power2.inOut'}
+           defaults: {ease: 'power2.inOut'}
          });
  
          const tl2 = gsap.timeline({
            scrollTrigger: {
              trigger: ".section",
              scrub: 0.7,
-             snap: {
-              snapTo: 1
-             },
+            //  snap: {
+            //   snapTo: 0.1
+            //  },
              start: "top top",
-             end: "bottom top",
+             end: "top+=75% top",
            },
-           defaults: {duration: sectionDuration, ease: 'power2.inOut'}
+           defaults: {ease: 'power2.inOut'}
          });
          
          const i = 0;
@@ -272,7 +270,7 @@ const App = () => {
             var glowMaterial = glowChild.material;
           }
 
-         const rotationLocation = [0.2, 1, -0.3, 0.7, -0.5, 1.3];
+         const rotationLocation = [0.2, 1, -0.3, 0.7, -0.5, 1.3, -0.78, 0.9];
 
           tl1.to(rotationSpeedRef, {
             value: -1,
@@ -299,35 +297,67 @@ const App = () => {
             .to(glowChild.scale, { x: increaseScale * glowSize, y: increaseScale * glowSize, z: increaseScale * glowSize }, 0)
             .to(glowMaterial, { opacity: 0.8 }, 0);
 
-          const tl21 = gsap.timeline({defaults: {duration: sectionDuration, ease: 'power2.inOut'}});
+          const tl21 = gsap.timeline({defaults: {ease: 'power2.inOut'}});
           tl21
             .to(earthGroup.position, { x: 7 }, 0)
             .to(pathGroup.rotation, { y: rotationLocation[1] }, 0)
             .to(markerGroup.rotation, { y: rotationLocation[1] }, 0)
             .to(lightsMesh.rotation, { y: rotationLocation[1] }, 0)
             .to(earthMesh.rotation, { y: rotationLocation[1] }, 0)
-            .to(cloudsMesh.rotation, { y: rotationLocation[1] }, 0);
-          tl2.add(tl21);
+            .to(cloudsMesh.rotation, { y: rotationLocation[1] }, 0)
+          tl2.add(tl21);           
 
-          tl2
-            .to(earthGroup.position, { x: -7 })
-
-          const tl22 = gsap.timeline({defaults: {duration: sectionDuration, ease: 'power2.inOut'}});
+          const tl22 = gsap.timeline({defaults: {ease: 'power2.inOut'}});
           tl22
+            .to(earthGroup.position, { x: -7 }, 0)
             .to(pathGroup.rotation, { y: rotationLocation[2] }, 0)
             .to(markerGroup.rotation, { y: rotationLocation[2] }, 0)
             .to(lightsMesh.rotation, { y: rotationLocation[2] }, 0)
             .to(earthMesh.rotation, { y: rotationLocation[2] }, 0)
             .to(cloudsMesh.rotation, { y: rotationLocation[2] }, 0)
-            .to(earthGroup.position, { x: 7 }, 0)
           tl2.add(tl22);
 
-          tl2
-            .to(earthGroup.position, { x: -7 })
-            .to(earthGroup.position, { x: 7 })
-            .to(earthGroup.position, { x: -7 })
-            .to(earthGroup.position, { x: 7 })
-            .to(earthGroup.position, { y: 20 })
+          const tl23 = gsap.timeline({defaults: {ease: 'power2.inOut'}});
+          tl23
+            .to(earthGroup.position, { x: 7 }, 0)
+            .to(pathGroup.rotation, { y: rotationLocation[3] }, 0)
+            .to(markerGroup.rotation, { y: rotationLocation[3] }, 0)
+            .to(lightsMesh.rotation, { y: rotationLocation[3] }, 0)
+            .to(earthMesh.rotation, { y: rotationLocation[3] }, 0)
+            .to(cloudsMesh.rotation, { y: rotationLocation[3] }, 0)
+          tl2.add(tl23);
+
+          const tl24 = gsap.timeline({defaults: {ease: 'power2.inOut'}});
+          tl24
+            .to(earthGroup.position, { x: -7 }, 0)
+            .to(pathGroup.rotation, { y: rotationLocation[4] }, 0)
+            .to(markerGroup.rotation, { y: rotationLocation[4] }, 0)
+            .to(lightsMesh.rotation, { y: rotationLocation[4] }, 0)
+            .to(earthMesh.rotation, { y: rotationLocation[4] }, 0)
+            .to(cloudsMesh.rotation, { y: rotationLocation[4] }, 0)
+          tl2.add(tl24);
+
+          const tl25 = gsap.timeline({defaults: {ease: 'power2.inOut'}});
+          tl25
+            .to(earthGroup.position, { x: 7 }, 0)
+            .to(pathGroup.rotation, { y: rotationLocation[5] }, 0)
+            .to(markerGroup.rotation, { y: rotationLocation[5] }, 0)
+            .to(lightsMesh.rotation, { y: rotationLocation[5] }, 0)
+            .to(earthMesh.rotation, { y: rotationLocation[5] }, 0)
+            .to(cloudsMesh.rotation, { y: rotationLocation[5] }, 0)
+          tl2.add(tl25);
+
+          const tl26 = gsap.timeline({defaults: {ease: 'power2.inOut'}});
+          tl26
+            .to(earthGroup.position, { x: -7 }, 0)
+            .to(pathGroup.rotation, { y: rotationLocation[6] }, 0)
+            .to(markerGroup.rotation, { y: rotationLocation[6] }, 0)
+            .to(lightsMesh.rotation, { y: rotationLocation[6] }, 0)
+            .to(earthMesh.rotation, { y: rotationLocation[6] }, 0)
+            .to(cloudsMesh.rotation, { y: rotationLocation[6] }, 0)
+          tl2.add(tl26);
+
+          tl2.to(earthGroup.position, { y: 30 })
 
             masterTimeline.add(tl1).add(tl2, `+=0`);
        };    
@@ -404,7 +434,7 @@ const App = () => {
         </div>
       </div>
 
-      <img src="src/assets/images/birds.svg" className="bg"/>
+      <img src="./src/assets/images/birds.svg" className="bg"/>
 
       {/* Conditionally render sections based on loading state */}
       {!isLoading && (
