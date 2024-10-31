@@ -42,9 +42,9 @@ const globeRadius = 10;
 const earthMesh = new THREE.Mesh(
   new THREE.IcosahedronGeometry(globeRadius, 12),
   new THREE.MeshPhongMaterial({
-    map: textureLoader.load("./src/assets/textures/earthmap4k.jpg"),
-    specularMap: textureLoader.load("./src/assets/textures/earthspec4k.jpg"),
-    bumpMap: textureLoader.load("./src/assets/textures/earthbump4k.jpg"),
+    map: textureLoader.load("./assets/textures/earthmap4k.jpg"),
+    specularMap: textureLoader.load("./assets/textures/earthspec4k.jpg"),
+    bumpMap: textureLoader.load("./assets/textures/earthbump4k.jpg"),
     bumpScale: 15,
   })
 );
@@ -52,7 +52,7 @@ const earthMesh = new THREE.Mesh(
 const lightsMesh = new THREE.Mesh(
   new THREE.IcosahedronGeometry(globeRadius, 12), 
   new THREE.MeshBasicMaterial({
-    map: textureLoader.load("./src/assets/textures/earthlights4k.jpg"),
+    map: textureLoader.load("./assets/textures/earthlights4k.jpg"),
     blending: THREE.AdditiveBlending,
   })
 );
@@ -60,8 +60,8 @@ const lightsMesh = new THREE.Mesh(
 const cloudsMesh = new THREE.Mesh(
   new THREE.IcosahedronGeometry(globeRadius, 12),
   new THREE.MeshStandardMaterial({
-    map: textureLoader.load("./src/assets/textures/earthhiresclouds4K.jpg"),
-    alphaMap: textureLoader.load("./src/assets/textures/earthcloudmaptrans.jpg"),
+    map: textureLoader.load("./assets/textures/earthhiresclouds4K.jpg"),
+    alphaMap: textureLoader.load("./assets/textures/earthcloudmaptrans.jpg"),
     blending: THREE.AdditiveBlending,
     transparent: true,
     opacity: 0.8,
@@ -434,7 +434,7 @@ const App = () => {
         </div>
       </div>
 
-      <img src="./src/assets/images/birds.svg" className="bg"/>
+      <img src="./assets/images/birds.svg" className="bg"/>
 
       {/* Conditionally render sections based on loading state */}
       {!isLoading && (
