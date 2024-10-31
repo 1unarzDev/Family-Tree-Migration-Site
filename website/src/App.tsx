@@ -357,9 +357,9 @@ const App = () => {
             .to(cloudsMesh.rotation, { y: rotationLocation[6] }, 0)
           tl2.add(tl26);
 
-          tl2.to(earthGroup.position, { y: 25 })
+          tl2.to(earthGroup.position, { y: 30 })
 
-            masterTimeline.add(tl1).add(tl2, `+=0`);
+          masterTimeline.add(tl1).add(tl2, `+=0`);
        };    
        updateTL();
      };
