@@ -42,8 +42,14 @@
 },
 {
     "from": "MDMA",
+    "to": "DNTX",
+    "arcHeight": 3,
+    "color": "#AFF961" 
+},
+{
+    "from": "DNTX",
     "to": "ARTX",
-    "arcHeight": 2,
+    "arcHeight": 0.6,
     "color": "#AFF961" 
 },
 {

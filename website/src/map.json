@@ -1,6 +1,6 @@
 [{
     "code": "MTIK",
-    "color": "#FFFFB1",
+    "color": "#000000",
     "city": "Mito",
     "province": "Ibaraki",
     "country": "Japan",
@@ -9,7 +9,7 @@
 },
 {
     "code": "TYMA",
-    "color": "#8a12ff",
+    "color": "#000000",
     "city": "Toyama",
     "province": "Toyama",
     "country": "Japan",
@@ -27,7 +27,7 @@
 },
 {
     "code": "IKJP",
-    "color": "#AAD9B1",
+    "color": "#000000",
     "city": "Ichikawa",
     "province": "Chiba",
     "country": "Japan",
@@ -45,7 +45,7 @@
 },
 {
     "code": "BNMA",
-    "color": "#8fffff",
+    "color": "#000000",
     "city": "Boston",
     "province": "Massachusetts",
     "country": "United States", 
@@ -90,7 +90,7 @@
 },
 {
     "code": "FWTX",
-    "color": "#5651F3",
+    "color": "#000000",
     "city": "Fort Worth",
     "province": "Texas",
     "country": "United States",

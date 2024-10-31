@@ -249,16 +249,15 @@ const App = () => {
            defaults: {ease: 'power2.inOut'}
          });
          
-         const i = 0;
-         const j = 0;
-
+         let i = 0;
+         let j = 1;
 
          const pathChild = pathGroup.children[j];
          if (pathChild instanceof THREE.Line){
            var lineMaterialColor = pathChild.material.color;
          }
  
-          const increaseScale = 10;
+          const increaseScale = 1;
 
           const markerChild = markerGroup.children[i].children[1];
           const glowChild = markerGroup.children[i].children[0];
@@ -272,7 +271,7 @@ const App = () => {
             var glowMaterial = glowChild.material;
           }
 
-         const rotationLocation = [0.25, 0.45, 0.275, 0.7, -0.5, 1.3, -1.3];
+         const rotationLocation = [0.35, 0.45, -2.15, -1.5, -2, 0.3, -1.3];
 
           tl1.to(rotationSpeedRef, {
             value: -1,
@@ -288,17 +287,18 @@ const App = () => {
             .to(earthMesh.rotation, { y: rotationLocation[0] }, 0)
             .to(cloudsMesh.rotation, { y: rotationLocation[0] }, 0)
             .to(earthGroup.position, { x: -7 }, 0)
-            .to(camera.position, { z: 20 }, 0)
+            .to(camera.position, { z: 17 }, 0)
             .to(earthGroup.rotation, { y: 5 }, 0)
             .to(lineMaterialColor, {
-              r: 255,
-              g: 255,
-              b: 255,
+              r: 0,
+              g: 0,
+              b: 0,
             }, 0)
             .to(markerChild.scale, { x: increaseScale * markerSize, y: increaseScale * markerSize, z: increaseScale * markerSize }, 0)
             .to(glowChild.scale, { x: increaseScale * glowSize, y: increaseScale * glowSize, z: increaseScale * glowSize }, 0)
             .to(glowMaterial, { opacity: 1 }, 0);
 
+          j++;
           const tl21 = gsap.timeline({defaults: {ease: 'power2.inOut'}});
           tl21
             .to(earthGroup.position, { x: 7 }, 0)
@@ -307,6 +307,14 @@ const App = () => {
             .to(lightsMesh.rotation, { y: rotationLocation[1] }, 0)
             .to(earthMesh.rotation, { y: rotationLocation[1] }, 0)
             .to(cloudsMesh.rotation, { y: rotationLocation[1] }, 0)
+            .to(lineMaterialColor, {
+              r: 0,
+              g: 0,
+              b: 0,
+            }, 0)
+            .to(markerChild.scale, { x: increaseScale * markerSize, y: increaseScale * markerSize, z: increaseScale * markerSize }, 0)
+            .to(glowChild.scale, { x: increaseScale * glowSize, y: increaseScale * glowSize, z: increaseScale * glowSize }, 0)
+            .to(glowMaterial, { opacity: 1 }, 0);
           tl2.add(tl21);           
 
           const tl22 = gsap.timeline({defaults: {ease: 'power2.inOut'}});
@@ -451,28 +459,28 @@ const App = () => {
           <section className="section-three">
           <div className="align-left">
               <p>
-                After my mother was born, my maternal grandparents moved with her to Toyama, my maternal grandfathers hometown. Here, they started a business and raised my mother.
+                After my mother was born, my maternal grandparents moved with her to Toyama, my maternal grandfather's hometown. Here, they started a business and raised my mother.
               </p>
             </div>
           </section>
           <section className="section-four">
           <div className="align-right">
               <p>
-                  
+                Transitioning to my father's side of the family, both of my paternal grandparents were born in Boston. After meeting eachother and having children, they moved around to various locations for my grandfather's work at Locheed.
               </p>
             </div>
           </section>
           <section className="section-five">
           <div className="align-left">
               <p>
-                
+                They moved to various locations in the US using a combination of airplanes and cars. First, they moved to Valencia, California. Then, they moved to Medway, Massachusetts. Lastly, they migrated to Denton and then to Arlington where my father was raised.
               </p>
             </div>
           </section>
           <section className="section-six">
           <div className="align-right">
               <p>
-                
+                After being raised in Arlington (my father actually went to Martin), my father migrated to Austin, where he stayed for a few years to attend college.
               </p>
             </div>
           </section>
@@ -500,7 +508,7 @@ const App = () => {
               <h2>What are the occupations of your parents?</h2>
               <h3>My father is a police officer, and my mother does real estate work.</h3>
               <h2>What were the push/pull factors if your parents moved around or stayed in one place?</h2>
-              <h3>When my parents were younger, they primarily moved for education or economic reasons. Both of my parents migrated to receive a university degree, and my father moved to Japan for a few years to bolster his Japanese skills. After my parents met, they decided to move to Texas due to better economic opportunities and a better environment for raising children.</h3>
+              <h3>When my parents were younger, they primarily moved for education or economic reasons (mostly pull). Both of my parents migrated to receive a university degree, and my father moved to Japan for a few years to bolster his Japanese skills (pull). After my parents met, they decided to move to Texas due to better economic opportunities and a better environment for raising children. (push from Japan)</h3>
               <h2>What mode of transportation was used in any of the above moves?</h2>
               <h3>The main modes of transportation that were used during each move were car, train, and airplane. Each move within Japan was made by using a combination of trains (the primary mode of transportation due to space constraints) and cars to effectively transport personal belongings. My father’s side of the family made many of their moves by using cars and airplanes depending on the distance traveled. When my father and mother were moving from Japan to the US, the only viable mode of transportation was an airplane.</h3>
               <h2>Interregional Migration (Internal):</h2>
@@ -525,6 +533,12 @@ const App = () => {
                 <li>Ichikawa is a suburb of Tokyo, so the move from Tokyo to Ichikawa (suburbanization) is considered a form of intraregional migration because you are still in the same region.</li>
                 <li>The move from Fort Worth to Mansfield is considered intraregional migration because you are moving within the DFW region.</li>
               </ul>
+
+              &nbsp;
+
+              <h3>
+                <b>Note:</b> Light Yellow = Maternal Granmother, Light Green = Maternal Grandfather, Orange = Paternal Grandfather, Dark Blue = Paternal Grandmother, Purple = Mother, Blue = Father, Red = Me
+              </h3>
             </div>
           </section>
         </>

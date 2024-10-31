@@ -17,7 +17,7 @@ function getPaths(globeRadius, location1, location2 = null, path = null) {
         const markerColor = new THREE.Color(location.color); // Ensure you provide distinct colors
     
         // Create the geometry for the marker
-        const geometry = new THREE.IcosahedronGeometry(0.1, 2);
+        const geometry = new THREE.IcosahedronGeometry(0.2, 2);
         
         // Create a mesh material for the main color
         const material = new THREE.MeshBasicMaterial({ 
@@ -29,7 +29,7 @@ function getPaths(globeRadius, location1, location2 = null, path = null) {
         const marker = new THREE.Mesh(geometry, material);
     
         // Create a glow effect using a second larger geometry
-        const glowGeometry = new THREE.IcosahedronGeometry(0.15, 2); // Slightly larger
+        const glowGeometry = new THREE.IcosahedronGeometry(0.26, 2); // Slightly larger
         const glowMaterial = new THREE.MeshBasicMaterial({ 
             color: markerColor, 
             transparent: true, 
