@@ -1,20 +1,20 @@
 @font-face {
   font-family: 'Grace';
-  src: url('assets/fonts/Grace.ttf') format('truetype');
+  src: url('../assets/fonts/Grace.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Vatroge-Display';
-  src: url('assets/fonts/Vatroge-Display.ttf');
+  src: url('../assets/fonts/Vatroge-Display.ttf');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Visby-Round';
-  src: url('assets/fonts/Visby-Round.ttf');
+  src: url('../assets/fonts/Visby-Round.ttf');
   font-weight: normal;
   font-style: normal;
 }
