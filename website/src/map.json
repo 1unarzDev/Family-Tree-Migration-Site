@@ -18,7 +18,7 @@
 },
 {
     "code": "TYJP",
-    "color": "#ff8080",
+    "color": "#d7f589",
     "city": "Tokyo",
     "province": "Shinjuku",
     "country": "Japan",
@@ -36,7 +36,7 @@
 },
 {
     "code": "MFTX",
-    "color": "#8f8fff",
+    "color": "#FF5151",
     "city": "Mansfield",
     "province": "Texas",
     "country": "United States", 
@@ -54,7 +54,7 @@
 },
 {
     "code": "DNTX",
-    "color": "#ff8fff",
+    "color": "#9362ac",
     "city": "Denton",
     "province": "Texas",
     "country": "United States",
@@ -63,7 +63,7 @@
 },
 {
     "code": "VLCA",
-    "color": "#A4D7F1",
+    "color": "#9362ac",
     "city": "Valencia",
     "province": "California",
     "country": "United States",
@@ -72,7 +72,7 @@
 },
 {
     "code": "AUTX",
-    "color": "#E6F57E",
+    "color": "#0faafa",
     "city": "Austin",
     "province": "Texas",
     "country": "United States",
@@ -81,7 +81,7 @@
 },
 {
     "code": "ARTX",
-    "color": "#3F69F1",
+    "color": "#9362ac",
     "city": "Arlington",
     "province": "Texas",
     "country": "United States",
@@ -99,7 +99,7 @@
 },
 {
     "code": "MDMA",
-    "color": "#EAB8D1",
+    "color": "#9362ac",
     "city": "Medway", 
     "province": "Massachusetts",
     "country": "United States",

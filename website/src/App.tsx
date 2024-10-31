@@ -307,11 +307,11 @@ const App = () => {
             .to(lightsMesh.rotation, { y: rotationLocation[1] }, 0)
             .to(earthMesh.rotation, { y: rotationLocation[1] }, 0)
             .to(cloudsMesh.rotation, { y: rotationLocation[1] }, 0)
-            .to(lineMaterialColor, {
-              r: 0,
-              g: 0,
-              b: 0,
-            }, 0)
+            // .to(lineMaterialColor, {
+            //   r: 0,
+            //   g: 0,
+            //   b: 0,
+            // }, 0)
             .to(markerChild.scale, { x: increaseScale * markerSize, y: increaseScale * markerSize, z: increaseScale * markerSize }, 0)
             .to(glowChild.scale, { x: increaseScale * glowSize, y: increaseScale * glowSize, z: increaseScale * glowSize }, 0)
             .to(glowMaterial, { opacity: 1 }, 0);
@@ -466,7 +466,7 @@ const App = () => {
           <section className="section-four">
           <div className="align-right">
               <p>
-                Transitioning to my father's side of the family, both of my paternal grandparents were born in Boston. After meeting eachother and having children, they moved around to various locations for my grandfather's work at Locheed.
+                Transitioning to my father's side of the family, my paternal grandfather was born in Darby, Pennsylvania, and my paternal grandmother was born in Boston. After meeting eachother and having children, they moved around to various locations for my grandfather's work at Locheed.
               </p>
             </div>
           </section>
@@ -537,7 +537,7 @@ const App = () => {
               &nbsp;
 
               <h3>
-                <b>Note:</b> Light Yellow = Maternal Granmother, Light Green = Maternal Grandfather, Orange = Paternal Grandfather, Dark Blue = Paternal Grandmother, Purple = Mother, Blue = Father, Red = Me
+                <b>Note:</b> Light Yellow = Maternal Grandmother, Light Green = Maternal Grandfather, Orange = Paternal Grandfather, Dark Blue = Paternal Grandmother, Purple = Mother, Blue = Father, Red = Me, and multiple family members in one move will result in a mixed color.
               </h3>
             </div>
           </section>

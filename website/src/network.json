@@ -8,20 +8,20 @@
 {
     "from": "TYMA",
     "to": "TYJP",
-    "arcHeight": 1,
+    "arcHeight": 0.6,
     "color": "#AFF961"
 },
 {
     "from": "TYJP",
     "to": "IKJP",
     "arcHeight": 0.5,
-    "color": "#AFF961"
+    "color": "#d7f589"
 },
 {
     "from": "IKJP",
     "to": "TYMA",
-    "arcHeight": 0.3,
-    "color": "#AFF961"
+    "arcHeight": 0.4,
+    "color": "#bdaab0"
 },
 {
     "from": "TYJP",
@@ -33,25 +33,31 @@
     "from": "BNMA",
     "to": "VLCA",
     "arcHeight": 4,
+    "color": "#9362ac"
+},
+{
+    "from": "DBPN",
+    "to": "BNMA",
+    "arcHeight": 3,
     "color": "#FFa191"
 },
 {
     "from": "VLCA",
     "to": "MDMA",
-    "arcHeight": 4,
-    "color": "#FFa191"
+    "arcHeight": 3.25,
+    "color": "#9362ac"
 },
 {
     "from": "MDMA",
     "to": "DNTX",
     "arcHeight": 3,
-    "color": "#FFa191" 
+    "color": "#9362ac" 
 },
 {
     "from": "DNTX",
     "to": "ARTX",
     "arcHeight": 0.6,
-    "color": "#FFa191" 
+    "color": "#9362ac" 
 },
 {
     "from": "ARTX",
@@ -75,6 +81,6 @@
     "from": "FWTX",
     "to": "MFTX",
     "arcHeight": 0.2,
-    "color": "#0faafa"
+    "color": "#FF5151"
 }
 ]
