@@ -357,7 +357,7 @@ const App = () => {
             .to(cloudsMesh.rotation, { y: rotationLocation[6] }, 0)
           tl2.add(tl26);
 
-          tl2.to(earthGroup.position, { y: 30 })
+          tl2.to(earthGroup.position, { y: 25 })
 
             masterTimeline.add(tl1).add(tl2, `+=0`);
        };    
@@ -491,16 +491,16 @@ const App = () => {
           <section className="section-nine">
           <div>
               <h2>What are/were the occupations of all your maternal and paternal grandparents?</h2>
-              <div className="small-paragraph">My maternal grandmother was a piano teacher; my maternal grandfather was a nuclear power plant engineer; my paternal grandmother was a dietition; my paternal grandfather was an electrical engineer.</div>
+              <h3>My maternal grandmother was a piano teacher; my maternal grandfather was a nuclear power plant engineer; my paternal grandmother was a dietition; my paternal grandfather was an electrical engineer.</h3>
               <h2>What were push/pull factors if your grandparents moved around or stayed in one place?</h2>
-              <div className="small-paragraph">My maternal grandfather and grandmother both moved from their hometowns to Tokyo in order to pursue higher education (pull). After meeting each other, they migrated to Ichikawa, a suburb of Tokyo, due to the lower costs of items (economic push/pull), while still being able to work in the urban city of Toyko. Once they had my mother, they moved to Toyama after a few years because they wanted to start a business in my grandfather’s hometown.</div>
-              <div className="small-paragraph">On my father’s side of the family, my paternal grandfather migrated throughout the US for his work at Lockheed Martin as an electrical engineer. My paternal grandmother, on the other hand, was originally from Massachusetts, so she remained there until she met my grandfather, so she followed him for his work.</div>
+              <h3>My maternal grandfather and grandmother both moved from their hometowns to Tokyo in order to pursue higher education (pull). After meeting each other, they migrated to Ichikawa, a suburb of Tokyo, due to the lower costs of items (economic push/pull), while still being able to work in the urban city of Toyko. Once they had my mother, they moved to Toyama after a few years because they wanted to start a business in my grandfather’s hometown.</h3>
+              <h3>On my father’s side of the family, my paternal grandfather migrated throughout the US for his work at Lockheed Martin as an electrical engineer. My paternal grandmother, on the other hand, was originally from Massachusetts, so she remained there until she met my grandfather, so she followed him for his work.</h3>
               <h2>What are the occupations of your parents?</h2>
-              <div className="small-paragraph">My father is a police officer, and my mother does real estate work.</div>
+              <h3>My father is a police officer, and my mother does real estate work.</h3>
               <h2>What were the push/pull factors if your parents moved around or stayed in one place?</h2>
-              <div className="small-paragraph">When my parents were younger, they primarily moved for education or economic reasons. Both of my parents migrated to receive a university degree, and my father moved to Japan for a few years to bolster his Japanese skills. After my parents met, they decided to move to Texas due to better economic opportunities and a better environment for raising children.</div>
+              <h3>When my parents were younger, they primarily moved for education or economic reasons. Both of my parents migrated to receive a university degree, and my father moved to Japan for a few years to bolster his Japanese skills. After my parents met, they decided to move to Texas due to better economic opportunities and a better environment for raising children.</h3>
               <h2>What mode of transportation was used in any of the above moves?</h2>
-              <div className="small-paragraph">The main modes of transportation that were used during each move were car, train, and airplane. Each move within Japan was made by using a combination of trains (the primary mode of transportation due to space constraints) and cars to effectively transport personal belongings. My father’s side of the family made many of their moves by using cars and airplanes depending on the distance traveled. When my father and mother were moving from Japan to the US, the only viable mode of transportation was an airplane.</div>
+              <h3>The main modes of transportation that were used during each move were car, train, and airplane. Each move within Japan was made by using a combination of trains (the primary mode of transportation due to space constraints) and cars to effectively transport personal belongings. My father’s side of the family made many of their moves by using cars and airplanes depending on the distance traveled. When my father and mother were moving from Japan to the US, the only viable mode of transportation was an airplane.</h3>
               <h2>Interregional Migration (Internal):</h2>
               <ul>
                 <li>The move from Toyama to Tokyo is considered interregional migration because Toyama is in a region northwest of Tokyo.</li>

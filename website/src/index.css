@@ -60,18 +60,19 @@ h2 {
   weight: 40
 }
 
+h3 {
+  color: white;
+  padding-left: 4vw;
+  padding-right: 6vw;
+  font-family: 'Visby-Round', sans-serif;
+  font-size: 2vw;
+  font-weight: normal;
+}
+
 ul {
   color: white;
   padding-left: 6vw;
   padding-right: 6vw;
-  font-family: 'Visby-Round', sans-serif;
-  font-size: 2vw;
-}
-
-.small-paragraph {
-  color: white;
-  left-padding: 4vw;
-  right-padding: 10vw;
   font-family: 'Visby-Round', sans-serif;
   font-size: 2vw;
 }
@@ -148,15 +149,15 @@ ul {
 }
 
 .section-three {
-	background-color: #b26262;
+	background-color: #f66272;
 }
 
 .section-four {
-	background-color: #70ff70;
+	background-color: #baffc0;
 }
 
 .section-five {
-	background-color: #b29255;
+	background-color: #eff2e5;
 }
 
 .section-six {
@@ -164,7 +165,7 @@ ul {
 }
 
 .section-seven {
-	background-color: #c2c282;
+	background-color: #8293f2;
 }
 
 .section-eight {
@@ -173,7 +174,7 @@ ul {
 
 .section-nine {
 	background-color: #83c2f2;
-  height: 280vh;
+  height: 240vh;
 }
 
 html.lenis, html.lenis body {
