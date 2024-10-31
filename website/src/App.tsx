@@ -271,7 +271,7 @@ const App = () => {
             var glowMaterial = glowChild.material;
           }
 
-         const rotationLocation = [0.35, 0.45, -2.15, -1.5, -2, 0.3, -1.3];
+         const rotationLocation = [0.35, 0.45, -2.15, -1.5, -1.7, 0.3, -1.35];
 
           tl1.to(rotationSpeedRef, {
             value: -1,
