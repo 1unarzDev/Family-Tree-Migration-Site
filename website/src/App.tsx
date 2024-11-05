@@ -466,7 +466,7 @@ const App = () => {
           <section className="section-four">
           <div className="align-right">
               <p>
-                Transitioning to my father's side of the family, my paternal grandfather was born in Darby, Pennsylvania, and my paternal grandmother was born in Boston. After meeting eachother and having children, they moved around to various locations for my grandfather's work at Locheed.
+                Transitioning to my father's side of the family, my paternal grandfather was born in Darby, Pennsylvania, and my paternal grandmother was born in Boston. After meeting eachother and having children, they moved around to various locations for my grandfather's work at Lockheed.
               </p>
             </div>
           </section>
@@ -494,7 +494,7 @@ const App = () => {
           <section className="section-eight">
           <div className="align-right">
               <p>
-                All of this has lead up to where I am today. My parents eventually moved to Fort Worth and had my brother and I. After a few years, my family moved to Mansfield due to the better access to education.
+                All of this has lead up to where I am today. My parents eventually moved to Fort Worth and had my brother and I. After a few years, my family moved to Mansfield to improve our access to quality education.
               </p>
             </div>
           </section>
@@ -508,7 +508,7 @@ const App = () => {
               <h2>What are the occupations of your parents?</h2>
               <h3>My father is a police officer, and my mother does real estate work.</h3>
               <h2>What were the push/pull factors if your parents moved around or stayed in one place?</h2>
-              <h3>When my parents were younger, they primarily moved for education or economic reasons (mostly pull). Both of my parents migrated to receive a university degree, and my father moved to Japan for a few years to bolster his Japanese skills (pull). After my parents met, they decided to move to Texas due to better economic opportunities and a better environment for raising children. (push from Japan)</h3>
+              <h3>When my parents were younger, they primarily moved for education or economic reasons (mostly pull). Both of my parents migrated to receive a university degree, and my father moved to Japan for a few years to bolster his Japanese skills (pull). After my parents met, they decided to move to Texas because there were better economic opportunities and a better environment for raising children. (push from Japan)</h3>
               <h2>What mode of transportation was used in any of the above moves?</h2>
               <h3>The main modes of transportation that were used during each move were car, train, and airplane. Each move within Japan was made by using a combination of trains (the primary mode of transportation due to space constraints) and cars to effectively transport personal belongings. My father’s side of the family made many of their moves by using cars and airplanes depending on the distance traveled. When my father and mother were moving from Japan to the US, the only viable mode of transportation was an airplane.</h3>
               <h2>Interregional Migration (Internal):</h2>
